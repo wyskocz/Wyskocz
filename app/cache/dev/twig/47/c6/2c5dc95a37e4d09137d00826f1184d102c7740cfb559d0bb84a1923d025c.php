@@ -7,18 +7,38 @@ class __TwigTemplate_47c62c5dc95a37e4d09137d00826f1184d102c7740cfb559d0bb84a1923
     {
         parent::__construct($env);
 
-        $this->parent = false;
+        $this->parent = $this->env->loadTemplate("::base.html.twig");
 
         $this->blocks = array(
+            'title' => array($this, 'block_title'),
+            'body' => array($this, 'block_body'),
         );
+    }
+
+    protected function doGetParent(array $context)
+    {
+        return "::base.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        // line 1
-        echo "Hello ";
-        echo twig_escape_filter($this->env, (isset($context["name"]) ? $context["name"] : $this->getContext($context, "name")), "html", null, true);
-        echo "!
+        $this->parent->display($context, array_merge($this->blocks, $blocks));
+    }
+
+    // line 3
+    public function block_title($context, array $blocks = array())
+    {
+        echo "Strona glowna";
+    }
+
+    // line 4
+    public function block_body($context, array $blocks = array())
+    {
+        // line 5
+        echo "    <h1>Index</h1>
+    <p class=\"important\">
+        Welcome on my awesome homepage.
+    </p>
 ";
     }
 
@@ -34,6 +54,6 @@ class __TwigTemplate_47c62c5dc95a37e4d09137d00826f1184d102c7740cfb559d0bb84a1923
 
     public function getDebugInfo()
     {
-        return array (  19 => 1,);
+        return array (  38 => 5,  35 => 4,  29 => 3,);
     }
 }
