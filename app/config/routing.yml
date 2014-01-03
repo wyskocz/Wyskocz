@@ -1,0 +1,4 @@
+wyskocz:
+    resource: "@WyskoczBundle/Resources/config/routing.yml"
+    prefix:   /
+
