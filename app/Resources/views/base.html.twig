@@ -12,18 +12,30 @@
     </head>
     <body>
         <div class="container">
+                    
+            <div class="row">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                {% endif %}          
+            </div>
+
             <div class="masthead">
                 <h3 class="text-muted">Wyskocz</h3>
                 <ul class="nav nav-justified">
                     <li class="active">
-                        <a href="{{ path('home') }}#home">Strona główna</a>
+                        <a href="{{ path('home') }}#home">Strona gÅ‚Ã³wna</a>
                     </li>
                     <li>
                         <a href="{{ path('places_list') }}#home">Lista miejsc</a>
                     </li>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") == false %}
                     <li>
-                        <a href="{# path('login') #}">Zaloguj się</a>
+                         <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
                     </li>
+                    {% endif %}    
                 </ul>
             </div>
             {% block jumbotron %}{% endblock %}
@@ -38,3 +50,4 @@
         {% endjavascripts %}
     </body>
 </html>
+
