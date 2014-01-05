@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <title>Wyskocz - {% block title %}{% endblock %}</title>
+        {% stylesheets 'bundles/wyskocz/css/*' filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -17,7 +20,7 @@
                     <a href="{{ path('places_list') }}#home">Lista miejsc</a>
                 </li>
                 <li>
-                    <a href="#">Zaloguj się</a>
+                    <a href="{# path('sign_in') #}">Zaloguj się</a>
                 </li>
             </ul>
         </nav>

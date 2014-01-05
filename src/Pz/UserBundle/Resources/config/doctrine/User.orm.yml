@@ -1,0 +1,9 @@
+# src/Pz/UserBundle/Resources/config/doctrine/User.orm.yml
+Pz\UserBundle\Entity\User:
+    type:  entity
+    table: wyskocz_user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO

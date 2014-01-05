@@ -10,8 +10,8 @@ class AuthType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('login');
-        $builder->add('password', 'password');
+        $builder->add('_username');
+        $builder->add('_password', 'password');
         $builder->add('zaloguj', 'submit');
     }
 

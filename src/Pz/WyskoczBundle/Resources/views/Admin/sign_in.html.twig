@@ -1,7 +1,17 @@
 {% extends "::admin.html.twig" %}
 
 {% block title %}Autoryzacja{% endblock %}
+
 {% block body %}
+
+
+
     <h2>Zaloguj się</h2>
-    {{ form(sign_in) }}
+    <!-- {# form(sign_in) #} -->
+    <form action="{{ path('auth_check') }}" name="sign_in" method="post">
+        <label for="username">Użytkownik:</label>
+        <input id="username" type="text" name="_username" />
+        <label for="password">Hasło:</label>
+        <input id="password" type="password" name="_password" /> <input type="submit" name="login" />
+    </form>
 {% endblock %}

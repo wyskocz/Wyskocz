@@ -3,9 +3,5 @@ home:
     defaults: { _controller: WyskoczBundle:Page:index }
 
 places_list:
-    pattern:  /places/
+    pattern:  /places
     defaults: { _controller: WyskoczBundle:Place:index }
-    
-admin:
-    pattern: /admin/
-    defaults: { _controller: WyskoczBundle:Admin:auth }
