@@ -2,29 +2,39 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Wyskocz - {% block title %}{% endblock %}</title>
-        {% stylesheets 'bundles/wyskocz/css/*' filter='cssrewrite' %}
+        {% stylesheets 'bundles/wyskocz/css/bootstrap.min.css' filter='cssrewrite' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <h1>Wyskocz</h1>
-        <nav>
-            <ul>
-                <li>
-                    <a href="{{ path('home') }}#home">Strona główna</a>
-                </li>
-                <li>
-                    <a href="{{ path('places_list') }}#home">Lista miejsc</a>
-                </li>
-                <li>
-                    <a href="{# path('sign_in') #}">Zaloguj się</a>
-                </li>
-            </ul>
-        </nav>
-        {% block body %}{% endblock %}
+        <div class="container">
+            <div class="masthead">
+                <h3 class="text-muted">Wyskocz</h3>
+                <ul class="nav nav-justified">
+                    <li class="active">
+                        <a href="{{ path('home') }}#home">Strona główna</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('places_list') }}#home">Lista miejsc</a>
+                    </li>
+                    <li>
+                        <a href="{# path('login') #}">Zaloguj się</a>
+                    </li>
+                </ul>
+            </div>
+            {% block jumbotron %}{% endblock %}
+            {% block body %}{% endblock %}
+            
+        </div>
+        
+        <script src="https://code.jquery.com/jquery.js"></script>
         {% block javascripts %}{% endblock %}
+        {% javascripts '@WyskoczBundle/Resources/public/js/bootstrap.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </body>
 </html>
