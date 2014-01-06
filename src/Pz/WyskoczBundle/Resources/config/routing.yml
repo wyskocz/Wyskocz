@@ -5,3 +5,8 @@ home:
 places_list:
     pattern:  /places
     defaults: { _controller: WyskoczBundle:Place:index }
+    
+WyskoczBundle_admin_page_:
+    resource: "@WyskoczBundle/Resources/config/routing/page.yml"
+    prefix:   /admin/page/
+

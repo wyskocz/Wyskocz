@@ -1,0 +1,20 @@
+Pz\WyskoczBundle\Entity\Page:
+    type: entity
+    table: null
+    repositoryClass: Pz\WyskoczBundle\Entity\PageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        tag:
+            type: string
+            length: '64'
+        title:
+            type: string
+            length: '255'
+        content:
+            type: text
+    lifecycleCallbacks: {  }

@@ -9,7 +9,7 @@ class PageController extends Controller
     public function indexAction() {
         
         return $content = $this->render(
-            'WyskoczBundle:Page:index.html.twig'
+            'WyskoczBundle:Page:homepage.html.twig'
         );
         
     }

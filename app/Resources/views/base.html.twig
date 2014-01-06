@@ -4,10 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Wyskocz - {% block title %}{% endblock %}</title>
+        
         {% stylesheets 'bundles/wyskocz/css/bootstrap.min.css' filter='cssrewrite' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
+        {% endstylesheets %}  
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('bundles/bmatznerleaflet/css/leaflet.css') }}" />
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
@@ -26,28 +28,28 @@
                 <h3 class="text-muted">Wyskocz</h3>
                 <ul class="nav nav-justified">
                     <li class="active">
-                        <a href="{{ path('home') }}#home">Strona główna</a>
+                        <a href="{{ path('home') }}">Strona główna</a>
                     </li>
                     <li>
-                        <a href="{{ path('places_list') }}#home">Lista miejsc</a>
+                        <a href="{{ path('places_list') }}">Lista miejsc</a>
                     </li>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") == false %}
                     <li>
-                         <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                         <a href="{{ path('fos_user_security_login') }}">Zaloguj</a>
                     </li>
                     {% endif %}    
                 </ul>
             </div>
-            {% block jumbotron %}{% endblock %}
-            {% block body %}{% endblock %}
-            
+        {% block mapbox %}{% endblock %}
+        {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}
         </div>
-        
         <script src="https://code.jquery.com/jquery.js"></script>
         {% block javascripts %}{% endblock %}
         {% javascripts '@WyskoczBundle/Resources/public/js/bootstrap.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
+        
     </body>
 </html>
 

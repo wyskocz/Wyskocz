@@ -1,0 +1,30 @@
+admin_page:
+    pattern:  /
+    defaults: { _controller: "WyskoczBundle:Page:list" }
+
+admin_page_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WyskoczBundle:Page:show" }
+
+admin_page_new:
+    pattern:  /new
+    defaults: { _controller: "WyskoczBundle:Page:new" }
+
+admin_page_create:
+    pattern:  /create
+    defaults: { _controller: "WyskoczBundle:Page:create" }
+    requirements: { _method: post }
+
+admin_page_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "WyskoczBundle:Page:edit" }
+
+admin_page_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "WyskoczBundle:Page:update" }
+    requirements: { _method: post|put }
+
+admin_page_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "WyskoczBundle:Page:delete" }
+    requirements: { _method: post|delete }

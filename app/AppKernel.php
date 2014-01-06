@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Pz\WyskoczBundle\WyskoczBundle(),
             new Pz\UserBundle\UserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Bmatzner\LeafletBundle\BmatznerLeafletBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

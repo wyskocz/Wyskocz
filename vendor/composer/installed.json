@@ -1646,5 +1646,52 @@
         "keywords": [
             "User management"
         ]
+    },
+    {
+        "name": "bmatzner/leaflet-bundle",
+        "version": "0.7.0",
+        "version_normalized": "0.7.0.0",
+        "target-dir": "Bmatzner/LeafletBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bmatzner/BmatznerLeafletBundle.git",
+            "reference": "03a9537b6f55362b5dc98f37d768cbe84a1d961d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bmatzner/BmatznerLeafletBundle/zipball/03a9537b6f55362b5dc98f37d768cbe84a1d961d",
+            "reference": "03a9537b6f55362b5dc98f37d768cbe84a1d961d",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/framework-bundle": ">=2.1"
+        },
+        "time": "2013-11-22 10:55:53",
+        "type": "symfony-bundle",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Bmatzner\\LeafletBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bernd Matzner",
+                "email": "bernd@matznermatzner.de",
+                "homepage": "http://berndmatzner.de"
+            }
+        ],
+        "description": "Leaflet Bundle for Symfony2",
+        "homepage": "http://leafletjs.com",
+        "keywords": [
+            "javascript",
+            "leaflet",
+            "mapping",
+            "symfony"
+        ]
     }
 ]

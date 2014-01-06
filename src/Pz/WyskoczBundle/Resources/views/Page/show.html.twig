@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+{% block title %}{{ entity.title }}{% endblock %}
+{% block body -%}
+    <h1>{{ entity.title }}</h1>
+    <article>
+        {{ entity.content }}
+    </article>
+{% endblock %}
