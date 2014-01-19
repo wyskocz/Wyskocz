@@ -1,10 +1,52 @@
 {% extends '::admin.html.twig' %}
+{% form_theme edit_form _self %}
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form, {attr : { 'class' : 'form-control'}}) }}
+    </div>
+{% endblock %}
+{% block _pz_wyskoczbundle_place_location_widget %}
+    {{ form_widget(form, {attr : { 'class' : 'form-control'}}) }}
+{% endblock %}
+{% block mapbox %}
+<div class="jumbotron">
+    <div>
+        <div id="map" style="height:380px"></div>
+        <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
 
+        <script>
+
+            var map = L.map('map').setView([{{location.1}}, {{location.0}}], 11);
+            L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+            }).addTo(map);
+            var popup = L.popup();
+            L.marker([{{location.1}}, {{location.0}}]).addTo(map)
+            .bindPopup("<b>{{ entity.name }}</b>").openPopup();
+
+            function onMapClick(e) {
+                popup
+                    .setLatLng(e.latlng)
+                    .setContent("Zaznaczona lokalizacja: " + e.latlng.toString())
+                    .openOn(map);
+                
+                var coords = e.latlng.toString();
+                coords = coords.replace('LatLng(', '');
+                coords = coords.replace(')', '');
+                document.getElementById("pz_wyskoczbundle_place_location").value=coords;
+            }
+
+            map.on('click', onMapClick);
+        </script>
+    </div>
+</div>
+{% endblock %}
 {% block body -%}
-    <h1>Place edit</h1>
-
+    <h3>Edytuj miejsce</h3>
     {{ form(edit_form) }}
-
         <ul class="record_actions">
     <li>
         <a href="{{ path('admin_place') }}">

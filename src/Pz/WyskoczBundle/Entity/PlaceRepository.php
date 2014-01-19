@@ -47,4 +47,5 @@ class PlaceRepository extends EntityRepository
         
         return $result;
     }
+    
 }

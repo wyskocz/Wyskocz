@@ -25,10 +25,17 @@ class PlaceController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $places = $em->getRepository('WyskoczBundle:Place')->getPlaces();
+        $securityContext = $this->container->get('security.context');
         
-        return $this->render('WyskoczBundle:Place:list.html.twig', array(
+        if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+            return $this->render('WyskoczBundle:Admin:Place/index.html.twig', array(
             'places' => $places,
-        ));
+            ));
+        } else {
+            return $this->render('WyskoczBundle:Place:list.html.twig', array(
+                'places' => $places,
+            ));
+        }
     }
     
     
@@ -45,6 +52,19 @@ class PlaceController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            //inwersja - nie wiem po co
+            $coordinates = $entity->getLocation();
+            $coordinates = explode(', ', $coordinates);
+            $coordinates = $coordinates[1].', '.$coordinates[0];
+            
+            $location = '{"type":"Point","coordinates":[';
+            $location .= $coordinates;
+            $location .= ']}';
+            
+            
+            
+            $entity->setLocation($location);
             $em->persist($entity);
             $em->flush();
 
@@ -121,17 +141,20 @@ class PlaceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('WyskoczBundle:Place')->find($id);
+        $entity = $em->getRepository('WyskoczBundle:Place')->getPlace($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Place entity.');
         }
-
-        $editForm = $this->createEditForm($entity);
+        
+        $entity['raw']->setLocation($entity['location'][1].', '.$entity['location'][0]);
+        
+        $editForm = $this->createEditForm($entity['raw']);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WyskoczBundle:Admin:Place/edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $entity['raw'],
+            'location' => $entity['location'],
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -170,10 +193,21 @@ class PlaceController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
+        
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
+            
         if ($editForm->isValid()) {
+            
+            $coordinates = $editForm->getData()->getLocation();
+            $coordinates = explode(', ', $coordinates);
+            $coordinates = $coordinates[1].', '.$coordinates[0];
+            
+            $editForm->getData()->setLocation(
+                    '{"type":"Point","coordinates":['.
+                    $coordinates.
+                    ']}');
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_place_edit', array('id' => $id)));

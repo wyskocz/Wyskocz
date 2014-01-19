@@ -10,6 +10,7 @@
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}  
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('bundles/bmatznerleaflet/css/leaflet.css') }}" />
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
@@ -35,6 +36,7 @@
         </div>
         
         <div class="container">
+            {% block mapbox %}{% endblock %}
             {% block body %}{% endblock %}
             {% block javascripts %}{% endblock %}
         </div>

@@ -50,7 +50,7 @@ class PageController extends Controller
 
         $entities = $em->getRepository('WyskoczBundle:Page')->findAll();
 
-        return $this->render('WyskoczBundle:Page:index.html.twig', array(
+        return $this->render('WyskoczBundle:Admin:Page/index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -106,7 +106,7 @@ class PageController extends Controller
         $entity = new Page();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('WyskoczBundle:Page:new.html.twig', array(
+        return $this->render('WyskoczBundle:Admin:Page/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -126,11 +126,20 @@ class PageController extends Controller
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('WyskoczBundle:Admin/Page:show.html.twig', array(
+        
+        $securityContext = $this->container->get('security.context');
+        if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+            $deleteForm = $this->createDeleteForm($id);
+            return $this->render('WyskoczBundle:Admin:Page/show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
+        } else {
+            return $this->render('WyskoczBundle:Page:show.html.twig', array(
+            'entity'      => $entity ));
+        }
+        
+        
+        
     }
 
     /**
@@ -150,7 +159,7 @@ class PageController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('WyskoczBundle:Page:edit.html.twig', array(
+        return $this->render('WyskoczBundle:Admin:Page/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -199,7 +208,7 @@ class PageController extends Controller
             return $this->redirect($this->generateUrl('admin_page_edit', array('id' => $id)));
         }
 
-        return $this->render('WyskoczBundle:Page:edit.html.twig', array(
+        return $this->render('WyskoczBundle:Admin:Page/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
