@@ -13,7 +13,11 @@ admin:
 dashboard:
     pattern:    /admin/dashboard
     defaults: { _controller: WyskoczBundle:Admin:viewDashboard }
-    
+
+view_place:
+    pattern:    /place/{id}
+    defaults: { _controller: WyskoczBundle:Place:show }
+
 WyskoczBundle_admin_page_:
     resource: "@WyskoczBundle/Resources/config/routing/page.yml"
     prefix:   /admin/page/

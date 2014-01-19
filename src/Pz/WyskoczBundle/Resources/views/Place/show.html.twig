@@ -1,48 +1,42 @@
-{% extends '::admin.html.twig' %}
+{% extends '::base.html.twig' %}
+{% block mapbox %}
+<div>
+    <div id="map" style="height:380px"></div>
+    <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
+    
+    <script>
+        
+        var map = L.map('map').setView([{{location.1}}, {{location.0}}], 16);
+        L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+        }).addTo(map);
+        var popup = L.popup();
+        L.marker([{{location.1}}, {{location.0}}]).addTo(map)
+        .bindPopup("<b>{{ entity.name }}</b>").openPopup();
+       
 
+    </script>
+</div>
+{% endblock %}
 {% block body -%}
-    <h1>Place</h1>
+    <h3>{{ entity.name }}</h3>
 
-    <table class="record_properties">
+    <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
-                <td>{{ entity.name }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
+                <th>Typ</th>
                 <td>{{ entity.type }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>Opis</th>
                 <td>{{ entity.description }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ entity.location }}</td>
-            </tr>
-            <tr>
-                <th>Etc</th>
-                <td>{{ entity.etc }}</td>
             </tr>
         </tbody>
     </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_place') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_place_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <a href="{{ path('places_list') }}">Powrót do listy</a>
 {% endblock %}

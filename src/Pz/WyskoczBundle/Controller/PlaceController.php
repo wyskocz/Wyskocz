@@ -23,11 +23,11 @@ class PlaceController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('WyskoczBundle:Place')->findAll();
-
-        return $this->render('WyskoczBundle:Place:index.html.twig', array(
-            'entities' => $entities,
+        
+        $places = $em->getRepository('WyskoczBundle:Place')->getPlaces();
+        
+        return $this->render('WyskoczBundle:Place:list.html.twig', array(
+            'places' => $places,
         ));
     }
     
@@ -85,7 +85,7 @@ class PlaceController extends Controller
         $entity = new Place();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('WyskoczBundle:Place:new.html.twig', array(
+        return $this->render('WyskoczBundle:Admin:Place/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -99,7 +99,7 @@ class PlaceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('WyskoczBundle:Place')->find($id);
+        $entity = $em->getRepository('WyskoczBundle:Place')->getPlace($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Place entity.');
@@ -108,8 +108,9 @@ class PlaceController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WyskoczBundle:Place:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'entity'      => $entity['raw'],
+            'location' => $entity['location']
+          ));
     }
 
     /**
@@ -129,7 +130,7 @@ class PlaceController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('WyskoczBundle:Place:edit.html.twig', array(
+        return $this->render('WyskoczBundle:Admin:Place/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -178,7 +179,7 @@ class PlaceController extends Controller
             return $this->redirect($this->generateUrl('admin_place_edit', array('id' => $id)));
         }
 
-        return $this->render('WyskoczBundle:Place:edit.html.twig', array(
+        return $this->render('WyskoczBundle:Admin:Place/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

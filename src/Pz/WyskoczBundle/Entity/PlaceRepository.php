@@ -16,10 +16,12 @@ class PlaceRepository extends EntityRepository
     public function getPlaces()
     {
         $places = $this->findAll();
-        
-        $result = array('type' => 'FeatureCollection', 'features' => array());
+        $result = array(
+                'json' => array('type' => 'FeatureCollection', 'features' => array()),
+                'raw' => $places
+                );
         foreach($places as $place):
-            $result['features'][] = array(
+            $result['json']['features'][] = array(
               'type' => 'Feature',
               'properties' => array (
                   '@id' => $place->getId(),
@@ -32,7 +34,17 @@ class PlaceRepository extends EntityRepository
               
             );
         endforeach;
-        
         return ($result);
+    }
+    
+    public function getPlace($id)
+    {
+        $place = $this->find($id);
+        $result = array(
+            'raw' => $place,
+            'location' => json_decode($place->getLocation())->coordinates
+        );
+        
+        return $result;
     }
 }
