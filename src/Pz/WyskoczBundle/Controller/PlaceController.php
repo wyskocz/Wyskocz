@@ -173,8 +173,8 @@ class PlaceController extends Controller
             'action' => $this->generateUrl('admin_place_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        
+        $form->add('submit', 'button', array('label' => 'Zaktualizuj dane', 'attr' => array('class' => 'btn btn-success btn-sm pull-left')));
 
         return $form;
     }
@@ -255,7 +255,7 @@ class PlaceController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_place_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'button', array('label' => 'Usuń miejsce', 'attr' => array('class' => 'btn btn-danger btn-sm pull-right')))
             ->getForm()
         ;
     }

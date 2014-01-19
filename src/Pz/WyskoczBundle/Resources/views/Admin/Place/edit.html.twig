@@ -46,13 +46,14 @@
 {% endblock %}
 {% block body -%}
     <h3>Edytuj miejsce</h3>
-    {{ form(edit_form) }}
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_place') }}">
-            Back to the list
+    <div class="container row">
+        {{ form(edit_form) }}
+
+
+        {{ form(delete_form) }}
+        <a href="{{ path('admin_place') }}" style="margin-left: 20px">
+            <button type="button" class="btn btn-primary btn-sm">Wróć do listy</button>
         </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
+    </div>
 </ul>
 {% endblock %}
