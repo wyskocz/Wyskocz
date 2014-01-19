@@ -5,6 +5,7 @@ namespace Pz\WyskoczBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Pz\WyskoczBundle\Entity\Place;
 use Pz\WyskoczBundle\Entity\Page;
 use Pz\WyskoczBundle\Form\PageType;
 
@@ -14,7 +15,7 @@ use Pz\WyskoczBundle\Form\PageType;
  */
 class PageController extends Controller
 {
-
+    
     /**
      * Lists all Page entities.
      *
@@ -26,14 +27,17 @@ class PageController extends Controller
         $entity = $em->getRepository('WyskoczBundle:Page')->findOneBy(array(
                     'tag' => 'homepage'
                 ));
-
+        $places = $em->getRepository('WyskoczBundle:Place')->getPlaces();
+        
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
         }
 
-
+        
+        
         return $this->render('WyskoczBundle:Page:homepage.html.twig', array(
-            'entity'      => $entity
+            'entity'      => $entity,
+            'places' => $places
         ));
     }
     /**

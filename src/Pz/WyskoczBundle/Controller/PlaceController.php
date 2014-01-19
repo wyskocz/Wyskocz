@@ -15,6 +15,7 @@ use Pz\WyskoczBundle\Form\PlaceType;
 class PlaceController extends Controller
 {
 
+    
     /**
      * Lists all Place entities.
      *
@@ -29,6 +30,9 @@ class PlaceController extends Controller
             'entities' => $entities,
         ));
     }
+    
+    
+    
     /**
      * Creates a new Place entity.
      *

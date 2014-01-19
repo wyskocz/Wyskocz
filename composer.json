@@ -20,7 +20,9 @@
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-		"bmatzner/leaflet-bundle": "~0.7"
+		"bmatzner/leaflet-bundle": "~0.7",
+		"doctrine/doctrine-fixtures-bundle": "dev-master",
+		"doctrine/data-fixtures" : "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
