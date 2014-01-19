@@ -1,6 +1,4 @@
 {% extends '::admin.html.twig' %}
-
-
 {% form_theme form _self %}
 {% block form_row %}
     <div class="form-group">
@@ -9,17 +7,13 @@
         {{ form_widget(form, {attr : { 'class' : 'form-control'}}) }}
     </div>
 {% endblock %}
-
 {% block body -%}
-    <h1>Page creation</h1>
+    <h3>Dodaj miejsce</h3>
 
-    {{ form(form, {attr : {'role' : 'form'}}) }}
+    {{ form(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_page') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+     <br/> 
+    <a href="{{ path('admin_page') }}" style="margin: 5px 0">
+        <button type="button" class="btn btn-primary btn-sm">Wróć do listy</button>
+    </a>
 {% endblock %}
