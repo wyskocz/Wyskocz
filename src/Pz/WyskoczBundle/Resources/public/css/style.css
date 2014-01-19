@@ -1,1 +1,5 @@
-form#sign_in label { font-weight: normal }
+body { margin-top: 50px; }
+.jumbotron { padding: 15px; }
+
+.sign_in label { font-weight: normal }
+.nav li a:hover { background: transparent; text-decoration: underline }

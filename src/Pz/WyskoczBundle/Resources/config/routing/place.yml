@@ -1,0 +1,30 @@
+admin_place:
+    pattern:  /
+    defaults: { _controller: "WyskoczBundle:Place:index" }
+
+admin_place_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WyskoczBundle:Place:show" }
+
+admin_place_new:
+    pattern:  /new
+    defaults: { _controller: "WyskoczBundle:Place:new" }
+
+admin_place_create:
+    pattern:  /create
+    defaults: { _controller: "WyskoczBundle:Place:create" }
+    requirements: { _method: post }
+
+admin_place_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "WyskoczBundle:Place:edit" }
+
+admin_place_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "WyskoczBundle:Place:update" }
+    requirements: { _method: post|put }
+
+admin_place_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "WyskoczBundle:Place:delete" }
+    requirements: { _method: post|delete }

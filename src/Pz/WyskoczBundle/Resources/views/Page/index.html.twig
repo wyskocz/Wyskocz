@@ -1,12 +1,13 @@
-{% extends '::base.html.twig' %}
-
+{% extends '::admin.html.twig' %}
+{% block title %}
+Lista stron
+{% endblock %}
 {% block body -%}
-    <h1>Page list</h1>
-
-    <table class="records_list">
+<h3>Lista stron</h3>
+    <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Tag</th>
                 <th>Title</th>
                 <th>Content</th>
@@ -34,12 +35,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('admin_page_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+    <a href="{{ path('admin_page_new') }}">
+        <button type="button" class="btn btn-primary btn-sm">Dodaj stronę</button>
+    </a>
     {% endblock %}

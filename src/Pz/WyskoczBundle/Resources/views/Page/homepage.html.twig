@@ -1,10 +1,13 @@
-            
-
 {% extends "::base.html.twig" %}
+{% block title %}{{ entity.title }}{% endblock %}
 {% block mapbox %}
 <div>
-    <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
     <div id="map" style="height:380px"></div>
+    <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
+    {% javascripts '@WyskoczBundle/Resources/public/js/db_puby.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
     <script>
         var map = L.map('map').setView([54.39755, 18.57134], 16);
         L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
@@ -15,14 +18,29 @@
         L.marker([54.39755, 18.57134]).addTo(map)
         .bindPopup("<b>Uniwersytet Gdański!</b><br />Tutaj nie ma żadnych pubów.").openPopup();
 
-        function onMapClick(e) {
-        popup
-            .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString())
-            .openOn(map);
-        }
-        map.on('click', onMapClick);
+        L.marker([54.39755, 18.57134]).addTo(map);
+        function onEachFeature(feature, layer) {
+            
+	}
+
+        L.geoJson(puby, {
+            style: function (feature) {
+                return {color: feature.properties.color};
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup(
+                        "<b>" + feature.properties.name + "</b><br/>" +
+                        feature.properties.website
+                        
+                        );
+            }
+        }).addTo(map);
+
 
     </script>
 </div>
 {% endblock %}
+{% block body %}
+{{ entity.content }}
+{% endblock %}
+{% block javascript %}{% endblock %}

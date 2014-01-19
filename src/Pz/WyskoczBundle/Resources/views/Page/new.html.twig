@@ -1,9 +1,19 @@
-{% extends '::base.html.twig' %}
+{% extends '::admin.html.twig' %}
+
+
+{% form_theme form _self %}
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form, {attr : { 'class' : 'form-control'}}) }}
+    </div>
+{% endblock %}
 
 {% block body -%}
     <h1>Page creation</h1>
 
-    {{ form(form) }}
+    {{ form(form, {attr : {'role' : 'form'}}) }}
 
         <ul class="record_actions">
     <li>

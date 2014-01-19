@@ -6,7 +6,18 @@ places_list:
     pattern:  /places
     defaults: { _controller: WyskoczBundle:Place:index }
     
+admin:
+    pattern:    /admin
+    defaults: { _controller: WyskoczBundle:Admin:viewDashboard }
+    
+dashboard:
+    pattern:    /admin/dashboard
+    defaults: { _controller: WyskoczBundle:Admin:viewDashboard }
+    
 WyskoczBundle_admin_page_:
     resource: "@WyskoczBundle/Resources/config/routing/page.yml"
     prefix:   /admin/page/
 
+WyskoczBundle_admin_place:
+    resource: "@WyskoczBundle/Resources/config/routing/place.yml"
+    prefix:   /admin/place/

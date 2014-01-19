@@ -1,16 +1,31 @@
-{% extends '::base.html.twig' %}
+{% extends '::admin.html.twig' %}
+
+{% form_theme edit_form _self %}
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form, {attr : { 'class' : 'form-control'}}) }}
+    </div>
+{% endblock %}
+
 
 {% block body -%}
     <h1>Page edit</h1>
-
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_page') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    
+    {{ form_start(edit_form, {attr : {'role' : 'form'}}) }}
+    
+        {{ form_row(edit_form.title, {attr : {'class' : 'form-group'}}) }}
+    
+        {{ form_row(edit_form.tag) }}
+    
+        {{ form_row(edit_form.content) }}
+    
+    {{ form_end(edit_form) }}
+        <br/>
+    {{ form(delete_form) }}
+    <br/> 
+    <a href="{{ path('admin_page') }}" style="margin: 5px 0">
+        <button type="button" class="btn btn-primary btn-sm">Wróć do listy</button>
+    </a>
 {% endblock %}

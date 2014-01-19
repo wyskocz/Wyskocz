@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/xampp/htdocs/Wyskocz/app/config/routing.yml</file>
-            <file>file:/G:/xampp/htdocs/Wyskocz/src/Pz/WyskoczBundle/Controller/AdminController.php</file>
-            <file>file:/G:/xampp/htdocs/Wyskocz/src/Pz/WyskoczBundle/Resources/config/routing.yml</file>
-            <file>file:/G:/xampp/htdocs/Wyskocz/src/Pz/WyskoczBundle/Controller/AuthController.php</file>
-            <file>file:/G:/xampp/htdocs/Wyskocz/app/config/security.yml</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/src/Pz/WyskoczBundle/Entity/Page.php</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/layout/index.html</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/app/Resources/views/base.html.twig</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/layout/atrakcje.html</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/layout/admin.html</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/layout/login.html</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/src/Pz/WyskoczBundle/Resources/views/Page/homepage.html.twig</file>
+            <file>file:/G:/xampp/htdocs/Wyskocz/src/Pz/WyskoczBundle/Resources/public/css/style.css</file>
         </group>
     </open-files>
 </project-private>
