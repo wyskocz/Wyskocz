@@ -1,0 +1,7 @@
+# src/Pz/UserBundle/Resources/config/services.yml
+services:
+    wyskocz_user.registration.form.type:
+        class: Pz\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: wyskocz_user_registration }

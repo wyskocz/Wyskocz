@@ -6,6 +6,10 @@ places_list:
     pattern:  /places
     defaults: { _controller: WyskoczBundle:Place:index }
     
+how-to:
+    pattern: /how-to
+    defaults: { _controller: WyskoczBundle:Page:how_to }
+
 admin:
     pattern:    /admin
     defaults: { _controller: WyskoczBundle:Admin:viewDashboard }
@@ -25,3 +29,7 @@ WyskoczBundle_admin_page_:
 WyskoczBundle_admin_place:
     resource: "@WyskoczBundle/Resources/config/routing/place.yml"
     prefix:   /admin/place/
+    
+voting:
+    resource: "@WyskoczBundle/Resources/config/routing/vote.yml"
+    prefix:   /vote/

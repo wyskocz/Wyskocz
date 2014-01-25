@@ -16,16 +16,20 @@ use Pz\WyskoczBundle\Form\PageType;
 class PageController extends Controller
 {
     
+    public function how_toAction() {
+        return $this->indexAction('how-to', 'Page:how-to.html.twig');
+    }
+    
     /**
      * Lists all Page entities.
      *
      */
-    public function indexAction($tag = 'homepage')
+    public function indexAction($tag = 'homepage', $layout = 'Page:homepage.html.twig')
     {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WyskoczBundle:Page')->findOneBy(array(
-                    'tag' => 'homepage'
+                    'tag' => $tag
                 ));
         $places = $em->getRepository('WyskoczBundle:Place')->getPlaces();
         
@@ -35,7 +39,7 @@ class PageController extends Controller
 
         
         
-        return $this->render('WyskoczBundle:Page:homepage.html.twig', array(
+        return $this->render('WyskoczBundle:'.$layout, array(
             'entity'      => $entity,
             'places' => $places
         ));

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="wyskocz_page")
+ * @ORM\Table(name="wyskocz_pages")
  */
 class Page
 {

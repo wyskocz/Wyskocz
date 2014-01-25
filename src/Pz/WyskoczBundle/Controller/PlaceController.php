@@ -14,8 +14,6 @@ use Pz\WyskoczBundle\Form\PlaceType;
  */
 class PlaceController extends Controller
 {
-
-    
     /**
      * Lists all Place entities.
      *
@@ -25,9 +23,11 @@ class PlaceController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $places = $em->getRepository('WyskoczBundle:Place')->getPlaces();
-        $securityContext = $this->container->get('security.context');
         
-        if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+        $securityContext = $this->container->get('security.context');
+       
+        
+        if( $securityContext->isGranted('ROLE_ADMIN') ){
             return $this->render('WyskoczBundle:Admin:Place/index.html.twig', array(
             'places' => $places,
             ));
@@ -61,8 +61,6 @@ class PlaceController extends Controller
             $location = '{"type":"Point","coordinates":[';
             $location .= $coordinates;
             $location .= ']}';
-            
-            
             
             $entity->setLocation($location);
             $em->persist($entity);
@@ -119,18 +117,41 @@ class PlaceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('WyskoczBundle:Place')->getPlace($id);
-
+        $entity = $em->getRepository('WyskoczBundle:Place')->getPlace($id);             
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Place entity.');
         }
-
+        
+        $votes = $em->getRepository('WyskoczBundle:Vote')->getVotes($id);
+        if (!$votes) $votes = 0; 
+        
+        $uid = $securityContext = $this->container->get('security.context')->getToken()->getUser()->getId();
+        $voted = $em->getRepository('WyskoczBundle:Vote')->checkIfVoted($uid, $id);
+        // WIDOKI
+        $securityContext = $this->container->get('security.context');
         $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('WyskoczBundle:Place:show.html.twig', array(
+        if( $securityContext->isGranted('ROLE_ADMIN') ){
+          return $this->render('WyskoczBundle:Place:show.html.twig', array(
             'entity'      => $entity['raw'],
+            'location' => $entity['location'],
+            'votes' => $votes,
+            'voted' => $voted,
+            'user' => $uid,
+            'delete_form' => $deleteForm->createView()
+          ));
+        } else {
+          return $this->render('WyskoczBundle:Place:show.html.twig', array(
+            'entity'      => $entity['raw'],
+            'votes' => $votes,
+            'voted' => $voted,
+            'user' => $uid,
             'location' => $entity['location']
           ));
+        }
+        
+        
+
+
     }
 
     /**
@@ -255,7 +276,7 @@ class PlaceController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_place_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'button', array('label' => 'Usuń miejsce', 'attr' => array('class' => 'btn btn-danger btn-sm pull-right')))
+            ->add('submit', 'submit', array('label' => 'Usuń miejsce', 'attr' => array('class' => 'btn btn-danger btn-sm pull-right')))
             ->getForm()
         ;
     }

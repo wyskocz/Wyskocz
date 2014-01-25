@@ -1,0 +1,23 @@
+Pz\WyskoczBundle\Entity\Vote:
+    type: entity
+    table: null
+    repositoryClass: Pz\WyskoczBundle\Entity\VoteRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        value:
+            type: integer
+        contentId:
+            type: integer
+            column: content_id
+        contentType:
+            type: integer
+            column: content_type
+        userId:
+            type: integer
+            column: user_id
+    lifecycleCallbacks: {  }

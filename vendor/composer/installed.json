@@ -1028,68 +1028,6 @@
         ]
     },
     {
-        "name": "symfony/monolog-bundle",
-        "version": "v2.4.1",
-        "version_normalized": "2.4.1.0",
-        "target-dir": "Symfony/Bundle/MonologBundle",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/MonologBundle.git",
-            "reference": "e81c2e9c4dc0a9ff794674017069e036f575f278"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/e81c2e9c4dc0a9ff794674017069e036f575f278",
-            "reference": "e81c2e9c4dc0a9ff794674017069e036f575f278",
-            "shasum": ""
-        },
-        "require": {
-            "monolog/monolog": "~1.6",
-            "php": ">=5.3.2",
-            "symfony/config": "~2.3",
-            "symfony/dependency-injection": "~2.3",
-            "symfony/http-kernel": "~2.3",
-            "symfony/monolog-bridge": "~2.3"
-        },
-        "require-dev": {
-            "symfony/console": "~2.3",
-            "symfony/yaml": "~2.3"
-        },
-        "time": "2013-08-26 10:15:04",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.4.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Bundle\\MonologBundle": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony MonologBundle",
-        "homepage": "http://symfony.com",
-        "keywords": [
-            "log",
-            "logging"
-        ]
-    },
-    {
         "name": "sensio/distribution-bundle",
         "version": "v2.3.4",
         "version_normalized": "2.3.4.0",
@@ -1810,6 +1748,122 @@
         "keywords": [
             "Fixture",
             "persistence"
+        ]
+    },
+    {
+        "name": "symfony/monolog-bundle",
+        "version": "v2.5.0",
+        "version_normalized": "2.5.0.0",
+        "target-dir": "Symfony/Bundle/MonologBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/MonologBundle.git",
+            "reference": "29a17a347dfc41aed34ce9b72cceaf375635c408"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/29a17a347dfc41aed34ce9b72cceaf375635c408",
+            "reference": "29a17a347dfc41aed34ce9b72cceaf375635c408",
+            "shasum": ""
+        },
+        "require": {
+            "monolog/monolog": "~1.6",
+            "php": ">=5.3.2",
+            "symfony/config": "~2.3",
+            "symfony/dependency-injection": "~2.3",
+            "symfony/http-kernel": "~2.3",
+            "symfony/monolog-bridge": "~2.3"
+        },
+        "require-dev": {
+            "symfony/console": "~2.3",
+            "symfony/yaml": "~2.3"
+        },
+        "time": "2014-01-19 13:23:40",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.5.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Bundle\\MonologBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony MonologBundle",
+        "homepage": "http://symfony.com",
+        "keywords": [
+            "log",
+            "logging"
+        ]
+    },
+    {
+        "name": "winzou/console-bundle",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "target-dir": "CoreSphere/ConsoleBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/winzou/ConsoleBundle.git",
+            "reference": "f189929c13de8ddc5177b49f0a69f8680c9a9862"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/winzou/ConsoleBundle/zipball/f189929c13de8ddc5177b49f0a69f8680c9a9862",
+            "reference": "f189929c13de8ddc5177b49f0a69f8680c9a9862",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "symfony/console": ">=2.1.0,<3.0",
+            "symfony/framework-bundle": ">=2.1.0,<3.0"
+        },
+        "time": "2013-02-22 08:46:21",
+        "type": "symfony-bundle",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "CoreSphere\\ConsoleBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Laszlo Korte",
+                "email": "coresphere@laszlokorte.de"
+            },
+            {
+                "name": "Marmus Ullman",
+                "email": "mail@markus-ullmann.de"
+            },
+            {
+                "name": "Alexandre winzou Bacco",
+                "homepage": "http://www.tutoriel-symfony2.fr/"
+            }
+        ],
+        "description": "This bundle allows you accessing the symfony2 console via your browser",
+        "keywords": [
+            "console",
+            "javascript",
+            "symfony"
         ]
     }
 ]

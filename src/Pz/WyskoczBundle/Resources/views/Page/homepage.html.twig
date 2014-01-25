@@ -1,44 +1,82 @@
 {% extends "::base.html.twig" %}
+{% block stylesheets %}
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+{% endblock %}
 {% block title %}{{ entity.title }}{% endblock %}
 {% block mapbox %}
-<div>
-    <div id="map" style="height:380px"></div>
-    <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
-    
-    <script>
-        var puby = {{ places.json|json_encode(constant('JSON_PRETTY_PRINT'))|raw }};
-        var map = L.map('map').setView([54.39755, 18.57134], 11);
-        L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-        }).addTo(map);
-        var popup = L.popup();
-        L.marker([54.39755, 18.57134]).addTo(map)
-        .bindPopup("<b>Uniwersytet Gdański</b><br />Tutaj nie ma żadnych pubów.").openPopup();
+<div id="main">  
+        <div id="map" style="height: 100%"></div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") == false %}
+        <div class="popup-message" id="first-time">
 
-        L.marker([54.39755, 18.57134]).addTo(map);
-        function onEachFeature(feature, layer) {
-            
-	}
+            <h2>Czym jest Wyskocz?</h2>
+            <p>Wyskocz to miejsce, dzięki któremu będziesz mógł zaplanować swój wolny czas! Znajdź swoje położenie na mapie, a my pokażemy Ci miejsca warte odwiedzin.</p>
+            <br/>
+            <p class="pull-right">
+                <a href="{{ path('how-to') }}" class="btn btn-primary find-out-more">
+                    Dowiedz się, jak korzystać z Wyskocz &nbsp;<span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+                <button type="button" class="btn btn-default close-popup">Zamknij okno &nbsp;<span class="glyphicon glyphicon-remove"></span></button>
+            </p>
+        </div>
+        {% endif %}
+        <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
 
-        L.geoJson(puby, {
-            style: function (feature) {
-                return {color: feature.properties.color};
-            },
-            onEachFeature: function (feature, layer) {
-                layer.bindPopup(
-                        "<b>" + feature.properties.name + "</b><br/>" +
-                        feature.properties.description
-                        
-                        );
-            }
-        }).addTo(map);
+        <script>
+            var puby = {{ places.json|json_encode(constant('JSON_PRETTY_PRINT'))|raw }};
+            var map = L.map('map').setView([54.39755, 18.57134], 11);
+            L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+            }).addTo(map);
+            var popup = L.popup();
 
-
-    </script>
+            L.geoJson(puby, {
+                style: function (feature) {
+                    return {color: feature.properties.color};
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(
+                            "<b>" + feature.properties.name + "</b><br/>" +
+                            feature.properties.description
+                            );
+                }
+            }).addTo(map);
+        </script>
 </div>
 {% endblock %}
 {% block body %}
-{{ entity.content }}
+<div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Heading</h3>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h3>Najnowsze komentarze</h3>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h3>Reklama</h3>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+      </div>
+</div>
 {% endblock %}
-{% block javascript %}{% endblock %}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        
+        <script>
+            $(document).ready(
+                function () {  
+                    $('#first-time p button.close-popup').click(function() {
+                        $("#first-time").fadeOut();
+                    });
+                });
+        </script>
+{% endblock %}

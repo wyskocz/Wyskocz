@@ -6,23 +6,42 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PlaceControllerTest extends WebTestCase
 {
-    /*
+    
     public function testCompleteScenario()
-    {
+    {/*
+     * 
+     
         // Create a new client to browse the application
         $client = static::createClient();
 
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/admin/place/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/place/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
-
+        // STRONA GŁÓWNA
+        $crawler = $client->request('GET', '/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        
+        // MIEJSCA
+        $crawler = $client->click($crawler->selectLink('Lista miejsc')->link());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        
+        // KONKRETNE MIEJSCE
+        $crawler = $client->click($crawler->selectLink('1')->link());
+        $this->assertGreaterThan(0, $crawler->filter('h3')->count());
+            
+            //Sprawdzam czy mapka jest
+            $mapka = array(
+                'tag' => 'div',
+                'id' => 'map'
+            );
+            $this->assertTag($mapka, $client->getResponse()->getContent());
+        
+         
+        // Create a new entry in the database   
+        /*
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
             'pz_wyskoczbundle_placetype[field_name]'  => 'Test',
             // ... other fields to fill
         ));
-
+        
         $client->submit($form);
         $crawler = $client->followRedirect();
 
@@ -49,7 +68,9 @@ class PlaceControllerTest extends WebTestCase
 
         // Check the entity has been delete on the list
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+    
+         * 
+         */
     }
-
-    */
+    
 }

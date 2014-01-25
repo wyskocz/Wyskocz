@@ -5,7 +5,8 @@ namespace Pz\WyskoczBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Place
+ * @ORM\Entity
+ * @ORM\Table(name="wyskocz_places")
  */
 class Place
 {
@@ -39,7 +40,9 @@ class Place
      */
     private $etc;
 
-
+    
+    private $voteValue;
+    
     /**
      * Get id
      *
@@ -163,5 +166,17 @@ class Place
     public function getEtc()
     {
         return $this->etc;
+    }
+    
+    public function setVoteValue($value)
+    {
+        $this->voteValue = $value;
+        
+        return $this;
+    }
+    
+    public function getVoteValue()
+    {
+        return $this->voteValue;
     }
 }

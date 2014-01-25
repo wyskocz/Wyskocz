@@ -1,44 +1,53 @@
 {% extends "::base.html.twig" %}
-{% block title %}{{ entity.title }}{% endblock %}
+{% block title %}Jak korzystać{% endblock %}
 {% block mapbox %}
-<div>
-    <div id="map" style="height:380px"></div>
-    <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
-    
-    <script>
-        var puby = {{ places.json|json_encode(constant('JSON_PRETTY_PRINT'))|raw }};
-        var map = L.map('map').setView([54.39755, 18.57134], 11);
-        L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-        }).addTo(map);
-        var popup = L.popup();
-        L.marker([54.39755, 18.57134]).addTo(map)
-        .bindPopup("<b>Uniwersytet Gdański</b><br />Tutaj nie ma żadnych pubów.").openPopup();
-
-        L.marker([54.39755, 18.57134]).addTo(map);
-        function onEachFeature(feature, layer) {
-            
-	}
-
-        L.geoJson(puby, {
-            style: function (feature) {
-                return {color: feature.properties.color};
-            },
-            onEachFeature: function (feature, layer) {
-                layer.bindPopup(
-                        "<b>" + feature.properties.name + "</b><br/>" +
-                        feature.properties.description
-                        
-                        );
-            }
-        }).addTo(map);
-
-
-    </script>
-</div>
 {% endblock %}
 {% block body %}
-{{ entity.content }}
+<div class="jumbotron">
+    <h2 class="text-center">Jak korzystać z Wyskocz</h2>
+    <p class="text-center">w trzech prostych krokach</p>
+</div>
+<div class="container" id="how-to">
+    
+    <div class="row">
+        <h3 class="pull-left left">Do czego służy Wyskocz?</h3>
+        <p class="text-right pull-right">
+            Wyskocz służy do <strong>przeglądania miejsc wartych odwiedzenia</strong> w danej okolicy: zabytków, kin, teatrów, parków, restauracji i innych. Dzięki temu możesz <strong>zaplanować swój wolny czas</strong>, aby spędzić go poza domem, wraz z rodziną i przyjaciółmi.
+            
+            Każda atrakcja może zostać oceniona poprzez system ocen i komentarzy. Będziesz mógł zarówno poznać opinię innych na temat danej atrakcji, jak również samemu polecić innym miejsce, w którym świetnie się bawiłeś.
+        </p>
+    </div>
+    <hr />
+    
+    <div class="row">
+        <h3 class="pull-right right"><strong>Krok 1.</strong><br/>Załóż konto</h3>
+        <p class="text-left pull-left">
+            Założenie konta trwa dosłownie chwilę, a dzięki temu będziesz mieć dostęp do wielu funkcji, takich jak: <strong>oznaczanie atrakcji jako odwiedzone</strong>, <strong>dodawanie atrakcji do ulubionych</strong>, <strong>ocenianie</strong>, <strong>zamieszczanie opinii</strong>. Konto jest oczywiście <strong>bezpłatne</strong> i będziesz mógł je usunąć w każdej chwili, wraz ze wszystkimi danymi osobowymi.
+            <br/><br/>
+            <a href="#" class="btn btn-primary">Przejdź do rejestracji &nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
+        </p>
+    </div>
+    <hr />
+    
+    <div class="row">
+        <h3 class="pull-left"><strong>Krok 2.</strong><br/>Oznacz swoje miejsce na mapie</h3>
+        <p class="text-right pull-right">
+            
+        </p>
+    </div>
+    <hr />
+    
+    <div class="row">
+        <h3 class="pull-right right"><strong>Krok 2.</strong><br/>Zapoznaj się z atrakcjami w Twojej okolicy<br/><small>(i nie tylko!)</small></h3>
+        <p class="text-left pull-left">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non volutpat ipsum. Vestibulum nulla urna, vulputate quis auctor in, mollis sit amet tellus. Nullam iaculis neque nibh, porttitor scelerisque magna ultrices sit amet. Integer nec urna eget sem imperdiet varius id at quam. Pellentesque pulvinar eleifend sem id varius. Aliquam auctor urna at lacus luctus cursus. Suspendisse vitae mi tempor, facilisis dui in, aliquam orci. Maecenas ut rutrum turpis. Curabitur dapibus massa eu tristique egestas.
+        </p>
+    </div>
+    <hr />
+
+</div>
+
 {% endblock %}
-{% block javascript %}{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

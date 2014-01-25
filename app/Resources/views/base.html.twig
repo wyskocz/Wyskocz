@@ -12,65 +12,144 @@
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}  
         {% block stylesheets %}{% endblock %}
+
         <link rel="stylesheet" href="{{ asset('bundles/bmatznerleaflet/css/leaflet.css') }}" />
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+                 
+
+        
+
     </head>
     <body>
-        
+
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
               <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span></button>
-                
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button> 
+                <a href="{{ path('home') }}" class="navbar-brand">Wyskocz</a>
+              </div>
 
+              <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a class="navbar-brand" href="{{ path('home') }}">Wyskocz</a></li>
-                  <li><a href="{{ path('places_list') }}">Lista miejsc</a></li>
+                  <li>
+                  <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle" href="{{ path('places_list') }}">Kategorie<b class="caret"></b></a>
+                      <div id="categories" class="dropdown-menu" style="width: 690px">
+                        <ul class="pull-left">
+                          <li class="dropdown-header">Gastronomia</li>
+                          <li><a href="#">Restauracje</a></li>
+                          <li><a href="#">Puby</a></li>
+                          <li><a href="#">Bary, fast-food</a></li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header">Rozrywka i wypoczynek</li>
+                          <li><a href="#">Kina</a></li>
+                          <li><a href="#">Parki, zoo</a></li>
+                          <li><a href="#">Baseny, aquaparki</a></li>
+                          <li><a href="#">Bilard, kręgle</a></li>
+                        </ul>
+                          
+                        <ul class="pull-left">
+                          <li class="dropdown-header">Kultura i zabytki</li>
+                          <li><a href="#">Zamki, pałace, kościoły</a></li>
+                          <li><a href="#">Muzea</a></li>
+                          <li><a href="#">Teatry, opery, filharmonie</a></li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header">Sport</li>
+                          <li><a href="#">Skateparki</a></li>
+                          <li><a href="#">Gokarty</a></li>
+                          <li><a href="#">Paintball</a></li>
+                        </ul>
+                          
+                        <ul class="pull-left">
+                          <li class="dropdown-header">Nocleg</li>
+                          <li><a href="#">Hotele, pensjonaty</a></li>
+                          <li><a href="#">Pokoje do wynajęcia</a></li>
+                          <li><a href="#">Pola namiotowe</a></li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header">Sport</li>
+                          <li><a href="#">Skoki spadochronowe</a></li>
+                          <li><a href="#">Żeglarstwo, sporty wodne</a></li>
+                        </ul>
+                        <a href="#" id="view-all-categories" class="clearfix">Pokaż wszystkie</a>
+                         
+                      </div>
+                    </li>
+                  </li>
+                  <li><a href="{{ path('places_list') }}">Popularne</a></li>
                   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                  <li>
-                    <a href="{{ path('admin') }}">
-                        Panel
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{{ path('fos_user_security_logout') }}">
-                        Wyloguj
-                    </a>
-                  </li>
-                  
+                  <li><a href="{{ path('admin') }}">Panel</a></li>
+                  <li><a href="{{ path('fos_user_security_logout') }}">Wyloguj</a></li>
                   {% endif %}
                 </ul>
-              </div>
-              
-              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") == false %}
-              <div class="navbar-collapse collapse">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") == false %}
                 <form class="navbar-form navbar-right" role="form" method="post" action="{{ path("fos_user_security_check") }}">
                   <div class="form-group">
-                    <input placeholder="Nazwa użytkownika" name="_username" class="form-control" type="text" />
+                    <input placeholder="e-mail" name="_username" class="form-control" type="text" />
                   </div>
 
                   <div class="form-group">
-                    <input placeholder="Hasło" name="_password" class="form-control" type="password" /> 
-                  </div><button type="submit" class="btn btn-success">Zaloguj</button>
+                    <input placeholder="hasło" name="_password" class="form-control" type="password" /> 
+                  </div>
+                  <button type="submit" class="btn btn-success">Zaloguj</button>
+                  <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary">Załóż konto</a>
                 </form>
+                {% endif %} 
               </div><!--/.navbar-collapse -->
-               {% endif %} 
+               
             </div>
           </div><!-- Main jumbotron for a primary marketing message or call to action -->
-        
-        
-        <div class="container">
-           <div class="jumbotron">
-            {% block mapbox %}{% endblock %}
-           </div>
+
+        {% block mapbox %}{% endblock %}
+            
         {% block body %}{% endblock %}
-        {% block footer %}{% endblock %}
-        </div>
+          
         <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
         {% block javascripts %}{% endblock %}
         {% javascripts '@WyskoczBundle/Resources/public/js/bootstrap.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
+
+        <div class="clearfix"></div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="pull-left">
+                <h4>Wyskocz</h4>
+                <ul>
+                    <li><a href="#">O Wyskocz</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                    <li><a href="#">Reklama</a></li>
+                    <li><a href="#">Polityka prywatności</a></li>
+                    <li><a href="#">Kontakt</a></li>
+                </ul>
+                </div>
+                
+                <div class="pull-left">
+                <h4>Dodatkowe informacje</h4>
+                <ul class="pull-left">
+                    <li><a href="#">Zakładanie konta</a></li>
+                    <li><a href="#">Dodawanie atrakcji</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+                </div>
+                
+                <div class="pull-left">
+                <h4>Pomoc</h4>
+                <ul class="pull-left">
+                    <li><a href="#">Zgłoś błąd</a></li>
+                    <li><a href="#">Najczęściej zadawane pytania</a></li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        
+    </footer>
     </body>
 </html>
 

@@ -3,7 +3,6 @@
 Lista miejsc
 {% endblock %}
 {% block mapbox %}
-    <div>
         <div id="map" style="height:380px"></div>
         <script type="text/javascript" src="{{ asset('bundles/bmatznerleaflet/js/leaflet.min.js') }}"></script>
 
@@ -38,9 +37,9 @@ Lista miejsc
 
 
         </script>
-    </div>
     {% endblock %}
 {% block body -%}
+<div class="container">
     <h3>Lista miejsc</h3>
     
     <table class="table">
@@ -59,7 +58,7 @@ Lista miejsc
                 <td><a href="{{ path('view_place', { 'id': place.id }) }}">{{ place.id }}</a></td>
                 <td>{{ place.name }}</a></td>
                 <td>{{ place.type }}</a></td>
-                <td>{{ place.description }}</a></td>
+                <td>{{ place.voteValue }}</a></td>
             </tr>
         {% endfor %}
         </tbody>
@@ -67,4 +66,5 @@ Lista miejsc
     <a href="{{ path('admin_place_new') }}">
         <button type="button" class="btn btn-primary btn-sm">Dodaj nową</button>
     </a>
+</div>
     {% endblock %}

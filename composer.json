@@ -22,7 +22,8 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
 		"bmatzner/leaflet-bundle": "~0.7",
 		"doctrine/doctrine-fixtures-bundle": "dev-master",
-		"doctrine/data-fixtures" : "dev-master"
+		"doctrine/data-fixtures" : "dev-master",
+		"winzou/console-bundle": "1.*"
     },
     "scripts": {
         "post-install-cmd": [

@@ -1,5 +1,40 @@
+html, body {min-height: 100%; height: 100%}
+#main { height: 70%; overflow: visible}
 body { margin-top: 50px; }
-.jumbotron { padding: 15px; }
-
 .sign_in label { font-weight: normal }
 .nav li a:hover { background: transparent; text-decoration: underline }
+
+
+.popup-message { width: 600px; height: 200px; padding: 15px 50px; background: #fff; z-index: 9999; position: fixed; top: 40%; left: 50%; margin-left: -350px; margin-top: -150px; border-radius: 15px; box-shadow: 0px 0px 0px 10px rgba(0,0,0,0.3); }
+
+/************************ HOME ******************************/
+#categories ul { padding: 0; width: 220px }
+#categories ul li  { list-style:none }
+#categories ul li a { display:block; padding: 3px 20px; color: #777;  }
+#view-all-categories { display: block; clear: both; text-align:center; padding: 5px 0; font-size: 9pt }
+
+
+/************************ HOW TO ****************************/
+#how-to p { font-size: 11pt; width: 70%; padding-top:25px; line-height: 2em; padding: 2em; display:block; }
+#how-to h3 { width: 28%; margin: 25px 0 0 0; text-align: center; padding: 0.5em 2em;  }
+#how-to h3.left { padding:0.5em 1em 0.5em 3em }
+#how-to h3.right { padding:0.5em 3em 0.5em 1em }
+#how-to p .btn { margin: 0 auto; display: block; width: 200px }
+
+/************************ REGISTRATION **********************/
+
+#registration-form { width:50%; margin: 0 auto; padding-top:50px; }
+#registration-form input[type="submit"] { margin: 15px 0 }
+#registration-form input { text-align: center }
+
+/************************ SHOW PLACE **********************/
+#vote-result { display: none }
+#remove-vote { font-size: 8pt }
+.vote:hover { text-decoration:none }
+.votes a span { color: #C00000 }
+/************************ FOOTER ****************************/
+footer {}
+footer h4 { font-size:10pt; color: #888; border-bottom: 1px solid #ccc; margin: 10px; padding: 5px 0 }
+footer ul { padding: 0 10px 10px; margin-right: 20px }
+footer ul li { list-style: none; padding: 3px; }
+footer ul li a { color: #999; }

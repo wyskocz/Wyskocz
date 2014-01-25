@@ -20,25 +20,292 @@
 </div>
 {% endblock %}
 {% block body -%}
-    <h3>{{ entity.name }}</h3>
+<div class="popup-message" id="vote-result">
+    <h2 id="popup-message-title"></h2>
+    <p id="popup-message-content"></p>
+    <br/>
+    <p class="pull-right">
+        <button type="button" class="btn btn-default close-popup">Zamknij okno &nbsp;<span class="glyphicon glyphicon-remove"></span></button>
+    </p>
+</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Typ</th>
-                <td>{{ entity.type }}</td>
-            </tr>
-            <tr>
-                <th>Opis</th>
-                <td>{{ entity.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container">
+    <h2>{{ entity.name }} 
+        <small>
+            <code id="votes-amount">{{ votes }}</code> <span class="glyphicon glyphicon-heart"></span>
+            <a href="#" id="remove-vote">[usuń głos]</a>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") == true %}
+            <div class="pull-right inline votes">
+              <a href="#" id="send-vote-1" class="vote">
+                <span class="glyphicon glyphicon-heart-empty"></span>
+              </a>
+              
+              <a href="#" id="send-vote-2" class="vote">
+                <span class="glyphicon glyphicon-heart-empty"></span>
+              </a>
+              
+              <a href="#" id="send-vote-3" class="vote">
+                <span class="glyphicon glyphicon-heart-empty"></span>
+              </a>
+              
+              <a href="#" id="send-vote-4" class="vote">
+                <span class="glyphicon glyphicon-heart-empty"></span>
+              </a>
+              
+              <a href="#" id="send-vote-5" class="vote">
+                <span class="glyphicon glyphicon-heart-empty"></span>
+              </a>
+            </div>
+            {% endif %}
+        </small>
+    </h2>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Opis
+            <a href="#" id="hide-description" class="pull-right">
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </a>
+            <span id="vote-result"></span>
+            </h3>
+            
+        </div>
+        <div id="description" class="panel-body">
+          {{ entity.description }}
+        </div>
+    </div>
     <a href="{{ path('places_list') }}">
         <button type="button" class="btn btn-primary btn-sm">Wróć do listy</button>
     </a>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    {% if voted == false %}
+        $('#remove-vote').hide();
+    {% else %}
+        $('.votes').hide();
+    {% endif %}    
+    
+    
+    $("#hide-description").click( function() {
+        $('#description').slideToggle( function() {
+        var icon = $("#hide-description span");
+        if( icon.hasClass('glyphicon-chevron-up') ) {icon.removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );}
+        else {icon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" ); }}); 
+    });
+    
+    //usuwanie glosu
+    $('#remove-vote').click(function() {
+        $.ajax({
+            type : 'GET',
+            url : '{{ url('home') }}vote/remove/{{ user }}/{{ entity.id }}',
+            data : 'adsf',
+            success : function(msg) {
+                
+                if(msg === "NO_VOTE") {
+                    $('#popup-message-title').text('Błąd');
+                    $('#popup-message-content').text('Głos nie został nigdy oddany.');
+                    $('.popup-message').fadeIn();
+                }
+                
+                if(msg === 'OK') {
+
+                    $.ajax({
+                        type : 'GET',
+                        url : '{{ url('home') }}vote/check/{{ user }}/{{ entity.id }}', 
+                        success : function(msg) {
+                            if(msg === 'FALSE') {
+                                $('#remove-vote').hide();
+                            }
+                        }
+                    });
+                    
+                    $.ajax({
+                        type : 'GET',
+                        url : '{{ url('home') }}vote/get/{{ entity.id }}', 
+                        success : function(msg) {
+                            $('#votes-amount').text(msg);
+                        }
+
+                    });
+                    
+                    $('.votes').fadeIn();
+                }
+            },
+            error : function(msg) {
+                alert('asdf');
+            }
+        });
+    });
+    
+    //glosowanie
+    $('.vote').click(function() {
+        var value = 0;
+        if( $(this).is('#send-vote-1')  ) value = 1;
+        if( $(this).is('#send-vote-2')  ) value = 2;
+        if( $(this).is('#send-vote-3')  ) value = 3;
+        if( $(this).is('#send-vote-4')  ) value = 4;
+        if( $(this).is('#send-vote-5')  ) value = 5;
+        var vote = {
+                'value' : value,
+                'contentId' : {{ entity.id }},
+                'contentType' : 1,
+                'userId' : {{ user }}
+            };
+        $.ajax({
+            type : 'POST',
+            url : '{{ url('home') }}vote/', 
+            data : vote, 
+            success : function(msg) {
+                
+                if(msg === "ALREADY_VOTED") {
+                    $('#popup-message-title').text('Błąd');
+                    $('#popup-message-content').text('Już głosowałeś na tę atrakcję!');
+                    $('.popup-message').fadeIn();
+                }
+                
+                if(msg === 'OK') {
+                    $('#popup-message-title').text('Oddałeś głos');
+                    $('#popup-message-content').text('');
+                    $('.popup-message').fadeIn();
+
+                    $.ajax({
+                        type : 'GET',
+                        url : '{{ url('home') }}vote/get/{{ entity.id }}', 
+                        data : vote, 
+                        success : function(msg) {
+                            $('#votes-amount').text(msg);
+                        }
+
+                    });
+                    $('.votes').fadeOut();
+                    $('#remove-vote').fadeIn();
+                }
+            }
+
+        });
+        $('.close-popup').click(function() {
+            $('.popup-message').fadeOut();
+            
+        });
+    });
+    
+    $('#send-vote-5').hover(
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-1 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-2 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-3 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-3 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-4 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-4 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-5 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-5 span').addClass('glyphicon-heart');
+        }, 
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart');
+            $('#send-vote-1 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart');
+            $('#send-vote-2 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-3 span').removeClass('glyphicon-heart');
+            $('#send-vote-3 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-4 span').removeClass('glyphicon-heart');
+            $('#send-vote-4 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-5 span').removeClass('glyphicon-heart');
+            $('#send-vote-5 span').addClass('glyphicon-heart-empty');
+        });
+        
+        $('#send-vote-4').hover(
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-1 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-2 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-3 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-3 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-4 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-4 span').addClass('glyphicon-heart');
+            
+        }, 
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart');
+            $('#send-vote-1 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart');
+            $('#send-vote-2 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-3 span').removeClass('glyphicon-heart');
+            $('#send-vote-3 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-4 span').removeClass('glyphicon-heart');
+            $('#send-vote-4 span').addClass('glyphicon-heart-empty');
+            
+        });
+        
+        $('#send-vote-3').hover(
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-1 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-2 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-3 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-3 span').addClass('glyphicon-heart');
+
+        }, 
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart');
+            $('#send-vote-1 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart');
+            $('#send-vote-2 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-3 span').removeClass('glyphicon-heart');
+            $('#send-vote-3 span').addClass('glyphicon-heart-empty');
+            
+        });
+        
+        $('#send-vote-2').hover(
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-1 span').addClass('glyphicon-heart');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-2 span').addClass('glyphicon-heart');
+            
+        }, 
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart');
+            $('#send-vote-1 span').addClass('glyphicon-heart-empty');
+            
+            $('#send-vote-2 span').removeClass('glyphicon-heart');
+            $('#send-vote-2 span').addClass('glyphicon-heart-empty');
+            
+        });
+        
+        $('#send-vote-1').hover(
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart-empty');
+            $('#send-vote-1 span').addClass('glyphicon-heart');
+            
+        }, 
+        function() {
+            $('#send-vote-1 span').removeClass('glyphicon-heart');
+            $('#send-vote-1 span').addClass('glyphicon-heart-empty');
+            
+        });
+</script>
 {% endblock %}

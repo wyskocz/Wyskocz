@@ -15,7 +15,22 @@ class PlaceRepository extends EntityRepository
     
     public function getPlaces()
     {
-        $places = $this->findAll();
+
+        $query = $this->getEntityManager()->createQuery('
+                SELECT p, AVG(v.value) FROM WyskoczBundle:Place p
+                LEFT JOIN WyskoczBundle:Vote v WITH v.contentId = p.id
+                GROUP BY p.id
+                ORDER BY p.id
+            ');
+
+        
+        $result = $query->getResult();
+        foreach($result as $place) {
+            if($place[1] === NULL) $place[1] = 0;
+            $place[0]->setVoteValue( round($place[1],2) );
+            $places[] = $place[0];
+        }
+
         $result = array(
                 'json' => array('type' => 'FeatureCollection', 'features' => array()),
                 'raw' => $places

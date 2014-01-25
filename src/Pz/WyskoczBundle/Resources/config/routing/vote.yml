@@ -1,30 +1,16 @@
-admin_page:
+vote:
     pattern:  /
-    defaults: { _controller: "WyskoczBundle:Page:list" }
-
-admin_page_show:
-    pattern:  /{id}/show
-    defaults: { _controller: "WyskoczBundle:Page:show" }
-
-admin_page_new:
-    pattern:  /new
-    defaults: { _controller: "WyskoczBundle:Page:new" }
-
-admin_page_create:
-    pattern:  /create
-    defaults: { _controller: "WyskoczBundle:Page:create" }
+    defaults: { _controller: "WyskoczBundle:Vote:vote" }
     requirements: { _method: post }
-
-admin_page_edit:
-    pattern:  /{id}/edit
-    defaults: { _controller: "WyskoczBundle:Page:edit" }
-
-admin_page_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "WyskoczBundle:Page:update" }
-    requirements: { _method: post|put }
-
-admin_page_delete:
-    pattern:  /{id}/delete
-    defaults: { _controller: "WyskoczBundle:Page:delete" }
-    requirements: { _method: post|delete }
+    
+get-votes:
+    pattern: /get/{id}
+    defaults: { _controller: "WyskoczBundle:Vote:getVotes" }
+    
+remove-votes:
+    pattern: /remove/{userId}/{id}
+    defaults: { _controller: "WyskoczBundle:Vote:removeVote" }
+    
+check-if-voted:
+    pattern: /check/{userId}/{id}
+    defaults: { _controller: "WyskoczBundle:Vote:checkIfVoted" }

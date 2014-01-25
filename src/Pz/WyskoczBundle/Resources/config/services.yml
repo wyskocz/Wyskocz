@@ -1,7 +1,9 @@
 parameters:
 #    wyskocz.example.class: Pz\WyskoczBundle\Example
-
 services:
+    votes:
+        class: Pz\WyskoczBundle\Controller\VoteController
+
 #    wyskocz.example:
 #        class: %wyskocz.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
