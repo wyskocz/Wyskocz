@@ -12,22 +12,86 @@ use Doctrine\ORM\EntityRepository;
  */
 class PlaceRepository extends EntityRepository
 {
+    private $maxResults = '20';
     
-    public function getPlaces()
+    public function getMaxResults() {
+        return $this->maxResults;
+    }
+    public function getPlaces($order = 'rating', $method = 'asc', $offset = 0)
     {
-
-        $query = $this->getEntityManager()->createQuery('
-                SELECT p, AVG(v.value) FROM WyskoczBundle:Place p
-                LEFT JOIN WyskoczBundle:Vote v WITH v.contentId = p.id
-                GROUP BY p.id
-                ORDER BY p.id
-            ');
-
         
-        $result = $query->getResult();
+        $aux = '';
+        switch($order) {
+            case 'name' : $order = 'p.name'; break;
+            case 'rating': $order = 'rating'; $aux = ', p.name asc'; break;
+            default: $order = 'rating'; break;
+        }
+        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('p, count(p), AVG(v.value) AS rating')
+                ->from('WyskoczBundle:Place', 'p')
+                ->leftJoin('WyskoczBundle:Vote', 'v', 'WITH', 'v.contentId = p.id')
+                ->groupBy('p')
+                ->orderBy($order, $method)
+                ->setFirstResult($offset)
+                ->setMaxResults($this->maxResults)
+                ;
+        
+        $result = $qb->getQuery()->getResult();
+        if(empty($result)) return false;
         foreach($result as $place) {
-            if($place[1] === NULL) $place[1] = 0;
-            $place[0]->setVoteValue( round($place[1],2) );
+            if($place['rating'] === NULL) $place['rating'] = 0;
+            $place[0]->setVoteValue( round($place['rating'],2) );
+            $places[] = $place[0];
+        }
+
+        $result = array(
+                'json' => array('type' => 'FeatureCollection', 'features' => array()),
+                'raw' => $places
+                );
+        foreach($places as $place):
+            $result['json']['features'][] = array(
+              'type' => 'Feature',
+              'properties' => array (
+                  '@id' => $place->getId(),
+                  'name' => $place->getName(),
+                  'amenity' => $place->getType(),
+                  'description' => $place->getDescription(),
+                  'etc' => json_decode($place->getEtc())
+              ),
+              'geometry' => json_decode($place->getLocation()),
+              
+            );
+        endforeach;
+        return ($result);
+    }
+    
+    public function getPlacesByCategory($category, $order = 'rating', $method = 'asc', $offset = 0)
+    {
+        $aux = '';
+        switch($order) {
+            case 'name' : $order = 'p.name'; break;
+            case 'rating': $order = 'rating'; $aux = ', p.name asc'; break;
+            default: $order = 'rating'; break;
+        }
+        
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('p, AVG(v.value) AS rating')
+                ->from('WyskoczBundle:Place', 'p')
+                ->leftJoin('WyskoczBundle:Vote', 'v', 'WITH', 'v.contentId = p.id')
+                ->where("p.type = :category")
+                ->setParameter('category', $category)
+                ->groupBy('p')
+                ->orderBy($order, $method)
+                ->setFirstResult($offset)
+                ->setMaxResults($this->maxResults)
+                ;
+        
+        $result = $qb->getQuery()->getResult();
+        if(empty($result)) return false;
+        foreach($result as $place) {
+            if($place['rating'] === NULL) $place['rating'] = 0;
+            $place[0]->setVoteValue( round($place['rating'],2) );
             $places[] = $place[0];
         }
 
@@ -60,6 +124,14 @@ class PlaceRepository extends EntityRepository
             'location' => json_decode($place->getLocation())->coordinates
         );
         
+        return $result;
+    }
+    
+    public function countPlaces($category = NULL) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('COUNT(p.id)')->from('WyskoczBundle:Place', 'p');
+        if(is_string($category)) $qb->where("p.type = '$category'");
+        $result = $qb->getQuery()->getSingleScalarResult();
         return $result;
     }
     

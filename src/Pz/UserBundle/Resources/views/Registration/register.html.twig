@@ -31,8 +31,22 @@
             {{ form_widget(passwordField, { 'attr': {'class': 'form-control'} }) }}
         </div>
     {% endfor %}
+        
         <div class="form-field">
-            <input type="submit" class="btn btn-success pull-right" value="Zarejestruj" />
+            <div class="checkbox">
+              <label>
+                  <input required type="checkbox" id="consent1" name="consent1" /> Oświadczam, że znam i akceptuję postanowienia <a href="{{path('tos')}}">Regulaminu</a>.
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                  <input required type="checkbox" id="consent2" name="consent1" /> Wyrażam zgodę na przetwarzanie podanych przeze mnie danych osobowych przez Wyskocz sp. z o.o. z siedzibą w Gdańsku w zakresie i w celu świadczenia usług określonych <a href="{{path('tos')}}">Regulaminem</a>. Przetwarzanie danych osobowych odbywa się na zasadach określonych  <a href="{{path('privacy-policy')}}">polityką ochrony prywatności</a>.
+              </label>
+            </div>
+        </div>
+
+        <div class="form-field">
+            <input type="submit" id="register-submit" class="btn btn-success pull-right" value="Zarejestruj" />
         </div>
     </div>
 {{ form_end(form) }}   
@@ -40,8 +54,20 @@
 {% endblock fos_user_content %}
 {% block javascripts %}
 <script src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
-<script>$('[title]').qtip({position: {
-		my: 'top center',  // Position my top left...
-		at: 'bottom center' // at the bottom right of...
-	}}); </script>
+<script>
+    $('[title]').qtip({position: {
+        my: 'top center',  // Position my top left...
+        at: 'bottom center' // at the bottom right of...
+    }}); 
+
+    $('#register-submit').click(function() {
+        if( !$('#consent1').is(":checked")) {
+            alert('Musisz zaakceptować postanowienia regulaminu.');
+        }
+        
+        if( !$('#consent1').is(":checked")) {
+            alert('Musisz zaakceptować zasady naszej polityki prywatności.');
+        }
+    });
+</script>
 {% endblock %}

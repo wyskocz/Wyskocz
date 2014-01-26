@@ -1,11 +1,9 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% trans_default_domain 'FOSUserBundle' %}
-
+{% block title %}Rejestracja zakończona{% endblock %}
 {% block fos_user_content %}
-    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
-    {% if app.session is not empty %}
-        {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
-        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
-    {% endif %}
+    <p class="alert alert-success" style="margin-top: 3em">Twoje konto zostało potwierdzone! Możesz teraz korzystać ze wszystkich opcji Wyskocz.
+        Przejdź do <a href="#">panelu</a> lub <a href="{{ path('home') }}">strony głównej</a>.
+    </p>
 {% endblock fos_user_content %}

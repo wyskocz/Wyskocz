@@ -12,6 +12,13 @@ use Pz\WyskoczBundle\Entity\Vote;
  */
 class VoteRepository extends EntityRepository
 {
+    private $maxResults = 10;
+    
+    public function setMaxResults($value = 10) {
+        $this->maxResults = $value;
+        
+        return $this;
+    }
     
     public function getVotes($id = NULL)
     {
@@ -37,4 +44,31 @@ class VoteRepository extends EntityRepository
         else return false;
     }
     
+    public function getUserVotesCount($user)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('COUNT(v.id)')
+                ->from('WyskoczBundle:Vote', 'v')
+                ->where('v.userId = :user')
+                ->setParameter('user', $user)
+                ;
+        
+        $result = $qb->getQuery()->getSingleScalarResult();
+        return $result;
+    }
+    
+    public function getUserVotes($user, $offset = 0) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('p.id, p.name, v.value')
+                ->from('WyskoczBundle:Vote', 'v')
+                ->where('v.userId = :user')
+                ->leftJoin('WyskoczBundle:Place', 'p', 'WITH', 'p.id = v.contentId')
+                ->setParameter('user', $user)
+                ->setMaxResults($this->maxResults)
+                ->setFirstResult($offset)
+                ;
+        $result = $qb->getQuery()->getResult();
+        return $result;
+        
+    }
 }

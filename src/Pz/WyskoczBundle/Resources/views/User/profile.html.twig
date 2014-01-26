@@ -1,0 +1,102 @@
+{% extends '::base.html.twig' %}
+{% block title %}
+Profil użytkownika
+{% endblock %}
+{% block body -%}
+
+<div class="container">
+    <h2><small>Profil użytkownika: </small><strong>{{userdata.username}}</strong></h2>
+    {% if show == 'all' %}
+    <div class="row">
+        <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Twoje dane
+            <a href="#" id="hide-user-data" class="pull-right">
+               <span class="glyphicon glyphicon-chevron-up"></span>
+            </a></div>
+        {% if votes is empty %}
+        <div class="panel-body">
+          <p>Nie oddałeś jeszcze żadnego głosu!</p>
+        </div>
+        {% else %}
+        <table class="table" id="user-data">
+            <tbody>
+                <tr>
+                    <td class="text-right"><strong>Ostatnie logowanie</strong></td>
+                    <td>{{userdata.last_login}}</td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>E-mail</strong></td>
+                    <td>{{userdata.email}}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Twoje oceny (wystawionych: <strong>{{voteCount}}</strong>)
+            <a href="#" id="hide-description" class="pull-right">
+               <span class="glyphicon glyphicon-chevron-up"></span>
+            </a></div>
+        {% if votes is empty %}
+        <div class="panel-body">
+          <p>Nie oddałeś jeszcze żadnego głosu!</p>
+        </div>
+        {% else %}
+        <table class="table" id="vote-list">
+            <thead>
+                <tr>
+                    <th>Miejsce</th>
+                    <th class="text-right">Ocena</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for place in votes %}
+                <tr>
+                    <td><a href="{{ path('home') }}place:{{place.id}}">{{place.name}}</a></td>
+                    <td class="rating">
+                        {% for x in 1..place.value %}
+                        <span class="glyphicon glyphicon-heart"></span>
+                        {% endfor %}
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>
+                        <ul class="pagination">
+                        {% for i in 1..pages %}
+                            <li {% if page == i %}class="active"{% endif %}><a href="{{path('home')}}profile/votes/page:{{i}}">{{i}}</a></li>
+                        {% endfor %}
+                        </ul>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+        </div>
+    </div>
+</div>
+    {% endblock %}
+{% block javascripts %}
+<script>
+    $("#hide-description").click( function() {
+        $('#vote-list').slideToggle( function() {
+        var icon = $("#hide-description span");
+        if( icon.hasClass('glyphicon-chevron-up') ) {icon.removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );}
+        else {icon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" ); }}); 
+    });
+    
+    $("#hide-user-data").click( function() {
+        $('#user-data').slideToggle( function() {
+        var icon = $("#hide-user-data span");
+        if( icon.hasClass('glyphicon-chevron-up') ) {icon.removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );}
+        else {icon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" ); }}); 
+    });
+</script>
+{% endblock %}

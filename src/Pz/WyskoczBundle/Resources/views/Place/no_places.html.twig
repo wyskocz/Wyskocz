@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+{% block title %}
+Lista miejsc
+{% endblock %}
+{% block body -%}
+
+<div class="container">
+    <h2>Przykro nam</h2>
+    <div class="row">
+        <div class="alert alert-danger">Nie znaleziono żadnych miejsc dla tej kategorii. <br/><br/><a href="{{ path('home') }}">Wróć do strony głównej.</a></div>
+    </div>
+</div>
+    {% endblock %}

@@ -14,28 +14,64 @@ use Pz\WyskoczBundle\Form\PlaceType;
  */
 class PlaceController extends Controller
 {
+    public function viewCategoryAction($category, $page = 1, $order = 'rating', $method = 'asc') {
+        
+        $method = 'asc';
+        if(strpos($order, ':') !== false) {
+            $order = explode(':', $order);
+            $method = $order[1];
+            $order = $order[0];
+        }
+        $em = $this->getDoctrine()->getManager();        
+        $offset = ($page-1)*$em->getRepository('WyskoczBundle:Place')->getMaxResults();
+
+        $places = $em->getRepository('WyskoczBundle:Place')->getPlacesByCategory($category, $order, $method, $offset);
+        if($places === false) {
+              return $this->render('WyskoczBundle:Place:no_places.html.twig');
+        }
+        $placeCount = $em->getRepository('WyskoczBundle:Place')->countPlaces($category);
+        $securityContext = $this->container->get('security.context');
+       
+        return $this->render('WyskoczBundle:Place:list.html.twig', array(
+                'category' => $category,
+                'places' => $places,
+                'order' => $order,
+                'count' => $placeCount,
+                'max' => $em->getRepository('WyskoczBundle:Place')->getMaxResults(),
+                'orderMethod' => $method
+            ));
+    }
+    
     /**
      * Lists all Place entities.
      *
      */
-    public function indexAction()
+    public function indexAction($page = 1, $order = 'rating', $method = 'asc')
     {
-        $em = $this->getDoctrine()->getManager();
         
-        $places = $em->getRepository('WyskoczBundle:Place')->getPlaces();
+        $method = 'asc';
+        if(strpos($order, ':') !== false) {
+            $order = explode(':', $order);
+            $method = $order[1];
+            $order = $order[0];
+        }
+        $em = $this->getDoctrine()->getManager();        
+        $offset = ($page-1)*$em->getRepository('WyskoczBundle:Place')->getMaxResults();
+        $places = $em->getRepository('WyskoczBundle:Place')->getPlaces($order, $method, $offset);
+        
+        if($places === false) {
+            return new Response('asdf');
+        }
         
         $securityContext = $this->container->get('security.context');
-       
-        
-        if( $securityContext->isGranted('ROLE_ADMIN') ){
-            return $this->render('WyskoczBundle:Admin:Place/index.html.twig', array(
-            'places' => $places,
-            ));
-        } else {
-            return $this->render('WyskoczBundle:Place:list.html.twig', array(
+        $placeCount = $em->getRepository('WyskoczBundle:Place')->countPlaces();
+        return $this->render('WyskoczBundle:Place:list.html.twig', array(
                 'places' => $places,
+                'order' => $order,
+                'count' => $placeCount,
+                'max' => $em->getRepository('WyskoczBundle:Place')->getMaxResults(),
+                'orderMethod' => $method
             ));
-        }
     }
     
     
@@ -124,11 +160,13 @@ class PlaceController extends Controller
         
         $votes = $em->getRepository('WyskoczBundle:Vote')->getVotes($id);
         if (!$votes) $votes = 0; 
-        
-        $uid = $securityContext = $this->container->get('security.context')->getToken()->getUser()->getId();
-        $voted = $em->getRepository('WyskoczBundle:Vote')->checkIfVoted($uid, $id);
-        // WIDOKI
         $securityContext = $this->container->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        if(!is_object($user)) $uid = 0;
+        else $uid = $user->getId();
+        $voted = $em->getRepository('WyskoczBundle:Vote')->checkIfVoted($uid, $id);
+        
+        // WIDOKI
         $deleteForm = $this->createDeleteForm($id);
         if( $securityContext->isGranted('ROLE_ADMIN') ){
           return $this->render('WyskoczBundle:Place:show.html.twig', array(

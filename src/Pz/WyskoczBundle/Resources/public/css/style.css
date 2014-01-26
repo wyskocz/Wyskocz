@@ -3,7 +3,8 @@ html, body {min-height: 100%; height: 100%}
 body { margin-top: 50px; }
 .sign_in label { font-weight: normal }
 .nav li a:hover { background: transparent; text-decoration: underline }
-
+.rating { color: #C00000 }
+#hide-description { color: #fff }
 
 .popup-message { width: 600px; height: 200px; padding: 15px 50px; background: #fff; z-index: 9999; position: fixed; top: 40%; left: 50%; margin-left: -350px; margin-top: -150px; border-radius: 15px; box-shadow: 0px 0px 0px 10px rgba(0,0,0,0.3); }
 
@@ -21,12 +22,17 @@ body { margin-top: 50px; }
 #how-to h3.right { padding:0.5em 3em 0.5em 1em }
 #how-to p .btn { margin: 0 auto; display: block; width: 200px }
 
+/************************ PLACES LIST **********************/
+#sort-method { float:right; display: inline; padding: 1.5em 2em 0 0; }
+#the-sorting-method { font-weight: bold }
+
 /************************ REGISTRATION **********************/
 
 #registration-form { width:50%; margin: 0 auto; padding-top:50px; }
 #registration-form input[type="submit"] { margin: 15px 0 }
 #registration-form input { text-align: center }
-
+/************************ USER PANEL **********************/
+.rating { color: #C00000; text-align:right }
 /************************ SHOW PLACE **********************/
 #vote-result { display: none }
 #remove-vote { font-size: 8pt }

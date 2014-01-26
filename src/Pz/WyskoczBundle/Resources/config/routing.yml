@@ -2,14 +2,67 @@ home:
     pattern:  /
     defaults: { _controller: WyskoczBundle:Page:index }
 
-places_list:
+profile:
+    pattern: /profile
+    defaults: { _controller: WyskoczBundle:User:index }
+    
+profile-show-page:
+    pattern: /profile/{show}/page:{page}
+    defaults: { _controller: WyskoczBundle:User:index }
+
+# PLACES
+places-list:
     pattern:  /places
     defaults: { _controller: WyskoczBundle:Place:index }
     
-how-to:
-    pattern: /how-to
-    defaults: { _controller: WyskoczBundle:Page:how_to }
+places-list-page:
+    pattern:  /places/page:{page}
+    defaults: { _controller: WyskoczBundle:Place:index }
+    
+places-sort:
+    pattern: /places/sort:{order}
+    defaults: { _controller: WyskoczBundle:Place:index }
+    
+places-list-category:
+    pattern:  /places:{category}
+    defaults: { _controller: WyskoczBundle:Place:viewCategory }
+    
+places-list-category-page:
+    pattern:  /places:{category}/page:{page}
+    defaults: { _controller: WyskoczBundle:Place:viewCategory }
+    
+places-category-sort:
+    pattern: /places:{category}/sort:{order}
+    defaults: { _controller: WyskoczBundle:Place:viewCategory }
+    
+places-category-page-sort:
+    pattern: /places:{category}/page:{page}/sort:{order}
+    defaults: { _controller: WyskoczBundle:Place:viewCategory }
+    
 
+    
+places-page-sort:
+    pattern: /places/page:{page}/sort:{order}
+    defaults: { _controller: WyskoczBundle:Place:index }
+    
+view-place:
+    pattern:    /place:{id}
+    defaults: { _controller: WyskoczBundle:Place:show }
+
+
+voting:
+    resource: "@WyskoczBundle/Resources/config/routing/vote.yml"
+    prefix:   /vote/
+
+# ADMIN
+admin_page_:
+    resource: "@WyskoczBundle/Resources/config/routing/page.yml"
+    prefix:   /admin/page/
+
+admin_place:
+    resource: "@WyskoczBundle/Resources/config/routing/place.yml"
+    prefix:   /admin/place/
+    
 admin:
     pattern:    /admin
     defaults: { _controller: WyskoczBundle:Admin:viewDashboard }
@@ -18,18 +71,24 @@ dashboard:
     pattern:    /admin/dashboard
     defaults: { _controller: WyskoczBundle:Admin:viewDashboard }
 
-view_place:
-    pattern:    /place/{id}
-    defaults: { _controller: WyskoczBundle:Place:show }
-
-WyskoczBundle_admin_page_:
-    resource: "@WyskoczBundle/Resources/config/routing/page.yml"
-    prefix:   /admin/page/
-
-WyskoczBundle_admin_place:
-    resource: "@WyskoczBundle/Resources/config/routing/place.yml"
-    prefix:   /admin/place/
     
-voting:
-    resource: "@WyskoczBundle/Resources/config/routing/vote.yml"
-    prefix:   /vote/
+# STATIC PAGES
+about:
+    pattern: /about
+    defaults: { _controller: WyskoczBundle:Page:about }
+    
+advertising:
+    pattern: /advertising
+    defaults: { _controller: WyskoczBundle:Page:advertising }
+
+how-to:
+    pattern: /how-to
+    defaults: { _controller: WyskoczBundle:Page:how_to }
+
+tos:
+   pattern: /terms-of-service
+   defaults: { _controller: WyskoczBundle:Page:tos }
+   
+privacy-policy:
+   pattern: /privacy-policy
+   defaults: { _controller: WyskoczBundle:Page:privacyPolicy }

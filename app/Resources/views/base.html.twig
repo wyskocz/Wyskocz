@@ -36,52 +36,57 @@
               <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                   <li>
-                  <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle" href="{{ path('places_list') }}">Kategorie<b class="caret"></b></a>
+                  <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle" href="{{ path('places-list') }}">Kategorie<b class="caret"></b></a>
                       <div id="categories" class="dropdown-menu" style="width: 690px">
                         <ul class="pull-left">
                           <li class="dropdown-header">Gastronomia</li>
-                          <li><a href="#">Restauracje</a></li>
-                          <li><a href="#">Puby</a></li>
-                          <li><a href="#">Bary, fast-food</a></li>
+                          <li><a href="{{ path('places-list') }}:restaurant">Restauracje</a></li>
+                          <li><a href="{{ path('places-list') }}:pub">Puby</a></li>
+                          <li><a href="{{ path('places-list') }}:bistro">Bary, fast-food</a></li>
                           <li class="divider"></li>
                           <li class="dropdown-header">Rozrywka i wypoczynek</li>
-                          <li><a href="#">Kina</a></li>
-                          <li><a href="#">Parki, zoo</a></li>
-                          <li><a href="#">Baseny, aquaparki</a></li>
-                          <li><a href="#">Bilard, kręgle</a></li>
+                          <li><a href="{{ path('places-list') }}:cinema">Kina</a></li>
+                          <li><a href="{{ path('places-list') }}:park">Parki, zoo</a></li>
+                          <li><a href="{{ path('places-list') }}:swimming-pool">Baseny, aquaparki</a></li>
+                          <li><a href="{{ path('places-list') }}:bilard,bowling">Bilard, kręgle</a></li>
                         </ul>
                           
                         <ul class="pull-left">
                           <li class="dropdown-header">Kultura i zabytki</li>
-                          <li><a href="#">Zamki, pałace, kościoły</a></li>
-                          <li><a href="#">Muzea</a></li>
-                          <li><a href="#">Teatry, opery, filharmonie</a></li>
+                          <li><a href="{{ path('places-list') }}:castle">Zamki, pałace, kościoły</a></li>
+                          <li><a href="{{ path('places-list') }}:museum">Muzea</a></li>
+                          <li><a href="{{ path('places-list') }}:theatre">Teatry, opery, filharmonie</a></li>
                           <li class="divider"></li>
                           <li class="dropdown-header">Sport</li>
-                          <li><a href="#">Skateparki</a></li>
-                          <li><a href="#">Gokarty</a></li>
-                          <li><a href="#">Paintball</a></li>
+                          <li><a href="{{ path('places-list') }}:skatepark">Skateparki</a></li>
+                          <li><a href="{{ path('places-list') }}:go-kart">Gokarty</a></li>
+                          <li><a href="{{ path('places-list') }}:paintball">Paintball</a></li>
                         </ul>
                           
                         <ul class="pull-left">
                           <li class="dropdown-header">Nocleg</li>
-                          <li><a href="#">Hotele, pensjonaty</a></li>
-                          <li><a href="#">Pokoje do wynajęcia</a></li>
-                          <li><a href="#">Pola namiotowe</a></li>
+                          <li><a href="{{ path('places-list') }}:hotel">Hotele, pensjonaty</a></li>
+                          <li><a href="{{ path('places-list') }}:room">Pokoje do wynajęcia</a></li>
+                          <li><a href="{{ path('places-list') }}:camping">Pola namiotowe</a></li>
                           <li class="divider"></li>
                           <li class="dropdown-header">Sport</li>
-                          <li><a href="#">Skoki spadochronowe</a></li>
-                          <li><a href="#">Żeglarstwo, sporty wodne</a></li>
+                          <li><a href="{{ path('places-list') }}:skydiving">Skoki spadochronowe</a></li>
+                          <li><a href="{{ path('places-list') }}:sailing">Żeglarstwo, sporty wodne</a></li>
                         </ul>
-                        <a href="#" id="view-all-categories" class="clearfix">Pokaż wszystkie</a>
+                        <a href="{{ path('places-list')}}" id="view-all-categories" class="clearfix">Pokaż wszystkie</a>
                          
                       </div>
                     </li>
                   </li>
-                  <li><a href="{{ path('places_list') }}">Popularne</a></li>
+                  <li><a href="{{ path('places-list') }}">Popularne</a></li>
+                  
                   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                  <li><a href="{{ path('admin') }}">Panel</a></li>
+                  <li><a href="{{ path('profile')  }}">Moje konto</a></li>
                   <li><a href="{{ path('fos_user_security_logout') }}">Wyloguj</a></li>
+                  {% endif %}
+                  
+                  {% if is_granted("ROLE_ADMIN") %}
+                    <li><a href="{{ path('admin') }}">Panel</a></li>
                   {% endif %}
                 </ul>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") == false %}
@@ -121,10 +126,10 @@
                 <div class="pull-left">
                 <h4>Wyskocz</h4>
                 <ul>
-                    <li><a href="#">O Wyskocz</a></li>
-                    <li><a href="#">Regulamin</a></li>
-                    <li><a href="#">Reklama</a></li>
-                    <li><a href="#">Polityka prywatności</a></li>
+                    <li><a href="{{path('about')}}">O Wyskocz</a></li>
+                    <li><a href="{{path('tos')}}">Regulamin</a></li>
+                    <li><a href="{{path('advertising')}}">Reklama</a></li>
+                    <li><a href="{{path('privacy-policy')}}">Polityka prywatności</a></li>
                     <li><a href="#">Kontakt</a></li>
                 </ul>
                 </div>

@@ -40,31 +40,33 @@ Lista miejsc
     {% endblock %}
 {% block body -%}
 <div class="container">
-    <h3>Lista miejsc</h3>
-    
+    <h3 class="pull-left">Lista miejsc</h3>
     <table class="table">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Nazwa</th>
-                <th>Rodzaj</th>
-                <th>Opis</th>
+                <th><a href="{{ path('places-list') }}{%if category is defined%}:{{category}}{%endif%}/sort:name:{%if orderMethod == 'asc'%}desc{%else%}asc{%endif%}">Nazwa {% if order == 'name' %}<span class="glyphicon glyphicon-chevron-{%if orderMethod == 'asc'%}up{%else%}down{%endif%}">{% endif %}</span></a></th>
+                {%if category is not defined%}<th>Rodzaj</th>{%endif%}
+                <th><a href="{{ path('places-list') }}{%if category is defined%}:{{category}}{%endif%}/sort:rating:{%if orderMethod == 'asc'%}desc{%else%}asc{%endif%}">Ocena {% if order == 'rating' %}<span class="glyphicon glyphicon-chevron-{%if orderMethod == 'asc'%}up{%else%}down{%endif%}">{% endif %}</a></th>
             </tr>
         </thead>
         <tbody>
         {% for place in places.raw %}
             
             <tr>
-                <td><a href="{{ path('view_place', { 'id': place.id }) }}">{{ place.id }}</a></td>
-                <td>{{ place.name }}</a></td>
-                <td>{{ place.type }}</a></td>
-                <td>{{ place.voteValue }}</a></td>
+                <td><a href="{{ path('view-place', { 'id': place.id }) }}">{{ place.id }}</a></td>
+                <td>{{ place.name }}</td>
+                {%if category is not defined%}<td>{{ place.type }}</td>{%endif%}
+                <td><code>{{ place.voteValue }}</code> <span class="glyphicon glyphicon-heart rating"></span></a></td>
             </tr>
         {% endfor %}
         </tbody>
+        
     </table>
-    <a href="{{ path('admin_place_new') }}">
-        <button type="button" class="btn btn-primary btn-sm">Dodaj nową</button>
-    </a>
+    <div class="row">
+        {% for page in range(0, count/max) %}
+        <a href="{{ path('places-list') }}{%if category is defined%}:{{category}}{%endif%}/page:{{page+1}}{%if order is defined%}/sort:{{order}}{%endif%}{%if orderMethod == 'asc'%}:asc{%else%}:desc{%endif%}" class="btn btn-primary btn-xs">{{page+1}}</a>
+        {% endfor%}
+        </div>
 </div>
     {% endblock %}

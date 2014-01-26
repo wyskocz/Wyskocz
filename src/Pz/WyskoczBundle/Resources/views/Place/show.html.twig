@@ -59,21 +59,40 @@
             {% endif %}
         </small>
     </h2>
-    <div class="panel panel-primary">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Opis
+                <a href="#" id="hide-description" class="pull-right">
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </a>
+                <span id="vote-result"></span>
+                </h3>
+
+            </div>
+            <div id="description" class="panel-body">
+              {{ entity.description }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Opis
-            <a href="#" id="hide-description" class="pull-right">
+            <h3 class="panel-title">Komentarze
+            <a href="#" id="hide-comments" class="pull-right">
                 <span class="glyphicon glyphicon-chevron-up"></span>
             </a>
-            <span id="vote-result"></span>
             </h3>
             
         </div>
-        <div id="description" class="panel-body">
-          {{ entity.description }}
+        <div id="comments" class="panel-body">
+          {% if comments is not defined %}
+          Tego miejsca jeszcze nikt nie skomentował.  
+          {% endif%}
+        </div>
         </div>
     </div>
-    <a href="{{ path('places_list') }}">
+    <a href="{{ path('places-list') }}">
         <button type="button" class="btn btn-primary btn-sm">Wróć do listy</button>
     </a>
 </div>
@@ -94,11 +113,18 @@
         else {icon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" ); }}); 
     });
     
+    $("#hide-comments").click( function() {
+        $('#comments').slideToggle( function() {
+        var icon = $("#hide-comments span");
+        if( icon.hasClass('glyphicon-chevron-up') ) {icon.removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );}
+        else {icon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" ); }}); 
+    });
+    
     //usuwanie glosu
     $('#remove-vote').click(function() {
         $.ajax({
             type : 'GET',
-            url : '{{ url('home') }}vote/remove/{{ user }}/{{ entity.id }}',
+            url : '{{ url('home') }}vote/remove/{{ entity.id }}',
             data : 'adsf',
             success : function(msg) {
                 
@@ -157,7 +183,7 @@
             url : '{{ url('home') }}vote/', 
             data : vote, 
             success : function(msg) {
-                
+
                 if(msg === "ALREADY_VOTED") {
                     $('#popup-message-title').text('Błąd');
                     $('#popup-message-content').text('Już głosowałeś na tę atrakcję!');
@@ -181,6 +207,9 @@
                     $('.votes').fadeOut();
                     $('#remove-vote').fadeIn();
                 }
+            },
+            error : function(error) {
+                alert(JSON.stringify(error));
             }
 
         });

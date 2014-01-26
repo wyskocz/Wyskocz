@@ -19,29 +19,30 @@ class VoteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('WyskoczBundle:Vote');
         $vote_exists = $repository->findBy(
-            array('userId' => $userId )
+            array('userId' => $userId,
+                'contentId' => $contentId)
         );
 
         if(!empty($vote_exists)) {
             return new Response('ALREADY_VOTED');
         }
-        
-        $vote = new Vote;
-        $vote->setValue( $value );
-        $vote->setContentId( $contentId );
-        $vote->setContentType( $contentType );
-        $vote->setUserId( $userId );
-
-
-        $em->persist( $vote );
-        $em->flush();
-        
-        if( $repository->find( $vote->getId() ) ) {
+        $user = $this->container->get('security.context');
+        $userId = $user->getToken()->getUser()->getId();
+        if($user->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+            $vote = new Vote;
+            $vote->setValue( $value );
+            $vote->setContentId( $contentId );
+            $vote->setContentType( $contentType );
+            $vote->setUserId( $userId );
+            $em->persist( $vote );
+            $em->flush();
+            if( $repository->find( $vote->getId() ) ) {
             return new Response('OK');
-        }
-        else {
-            return new Response('NOT');
-        }
+            }
+            else {
+                return new Response('NOT');
+            }
+        } else return new Response('NOT_AUTHENTICATED');
     }
     
     public function getVotesAction($id = NULL)
@@ -65,8 +66,11 @@ class VoteController extends Controller
         
     }
     
-    public function removeVoteAction($userId, $id)
+    public function removeVoteAction($id)
     {
+        $user = $this->container->get('security.context');
+        $userId = $user->getToken()->getUser()->getId();
+
         $em = $this->getDoctrine()->getManager();
         $vote = $em->getRepository('WyskoczBundle:Vote')->findOneBy(array(
             'userId' => $userId,

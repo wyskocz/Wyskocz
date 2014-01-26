@@ -8,7 +8,7 @@ get-votes:
     defaults: { _controller: "WyskoczBundle:Vote:getVotes" }
     
 remove-votes:
-    pattern: /remove/{userId}/{id}
+    pattern: /remove/{id}
     defaults: { _controller: "WyskoczBundle:Vote:removeVote" }
     
 check-if-voted:

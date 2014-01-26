@@ -20,6 +20,22 @@ class PageController extends Controller
         return $this->indexAction('how-to', 'Page:how-to.html.twig');
     }
     
+    public function aboutAction() {
+        return $this->render('WyskoczBundle:Page:about.html.twig');
+    }
+    
+    public function advertisingAction() {
+        return $this->render('WyskoczBundle:Page:advertising.html.twig');
+    }
+    
+    public function tosAction() {
+        return $this->render('WyskoczBundle:Page:tos.html.twig');
+    }
+    
+    public function privacyPolicyAction() {
+        return $this->render('WyskoczBundle:Page:privacy_policy.html.twig');
+    }
+    
     /**
      * Lists all Page entities.
      *
